@@ -19,9 +19,15 @@ Build runs `scripts/split-posts.mjs` (reads `content-source/linkedin-post.md`) t
 
 ## Deploy
 
-Push to `main`. GitHub Actions builds and publishes `dist/` to GitHub Pages.
+**Current:** push built output to the `gh-pages` branch (GitHub Pages serves that branch at `alapureram.com`).
 
-In repo settings: Pages source = **GitHub Actions**. Custom domain `alapureram.com` (CNAME in `public/CNAME`).
+```bash
+node scripts/deploy-gh-pages.mjs
+```
+
+**Future (GitHub Actions):** after granting `workflow` scope to your GitHub token, push `.github/workflows/deploy.yml` and set Pages source to **GitHub Actions** in repo settings.
+
+Push to `main` only updates source; run the deploy script above to publish.
 
 ## Content
 
