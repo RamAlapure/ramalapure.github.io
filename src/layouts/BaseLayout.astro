@@ -48,18 +48,33 @@ const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
     <header class="site-header">
       <div class="site-header-inner">
         <a class="site-name" href="/">Ram Alapure</a>
-        <div class="site-header-end">
-          <nav class="site-nav" aria-label="Main">
-            <a href="/writing/" class:list={{ active: current === 'writing' }}>Writing</a>
-            <a href="/projects/" class:list={{ active: current === 'projects' }}>Projects</a>
-            <a href="/about/" class:list={{ active: current === 'about' }}>About</a>
-          </nav>
-          <div class="theme-toggle" role="group" aria-label="Color theme">
-            <button type="button" data-theme-pref="light">Light</button>
-            <button type="button" data-theme-pref="dark">Dark</button>
-            <button type="button" data-theme-pref="system">System</button>
-          </div>
-        </div>
+        <nav class="site-nav" aria-label="Main">
+          <a href="/writing/" class:list={{ active: current === 'writing' }}>Writing</a>
+          <a href="/projects/" class:list={{ active: current === 'projects' }}>Projects</a>
+          <a href="/about/" class:list={{ active: current === 'about' }}>About</a>
+        </nav>
+        <button type="button" class="theme-toggle" aria-label="Switch theme">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="1.75"></circle>
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              d="M12 3v1.5M12 19.5V21M4.93 4.93l1.06 1.06M18.01 18.01l1.06 1.06M3 12h1.5M19.5 12H21M4.93 19.07l1.06-1.06M18.01 5.99l1.06-1.06"
+            ></path>
+          </svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.75"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M20 14.5A8.5 8.5 0 1 1 9.5 4 7 7 0 0 0 20 14.5z"
+            ></path>
+          </svg>
+        </button>
       </div>
     </header>
     <main>

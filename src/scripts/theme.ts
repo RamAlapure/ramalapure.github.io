@@ -5,24 +5,23 @@ export const THEME_STORAGE_KEY = 'theme';
 export const THEME_CHANGE_EVENT = 'themechange';
 
 export function initThemeControls() {
-  const root = document.documentElement;
-  syncButtons(readPref(root));
+  const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  if (!button) return;
 
-  document.querySelectorAll<HTMLButtonElement>('[data-theme-pref]').forEach((button) => {
-    if (button.dataset.themeBound === 'true') return;
+  syncToggle(button, resolvedTheme(document.documentElement));
+
+  if (button.dataset.themeBound !== 'true') {
     button.dataset.themeBound = 'true';
     button.addEventListener('click', () => {
-      const pref = button.dataset.themePref;
-      if (pref !== 'light' && pref !== 'dark' && pref !== 'system') return;
-      applyPref(pref);
+      const next: ResolvedTheme = resolvedTheme(document.documentElement) === 'dark' ? 'light' : 'dark';
+      applyPref(next);
     });
-  });
+  }
 
   const media = window.matchMedia('(prefers-color-scheme: dark)');
-  const onSystemChange = () => {
-    if (readPref(root) === 'system') applyPref('system');
-  };
-  media.addEventListener('change', onSystemChange);
+  media.addEventListener('change', () => {
+    if (readPref(document.documentElement) === 'system') applyPref('system');
+  });
 }
 
 export function applyPref(pref: ThemePref) {
@@ -34,7 +33,9 @@ export function applyPref(pref: ThemePref) {
   root.dataset.themePref = pref;
   root.style.colorScheme = resolved;
   writePref(pref);
-  syncButtons(pref);
+
+  const button = document.querySelector<HTMLButtonElement>('.theme-toggle');
+  if (button) syncToggle(button, resolved);
 
   if (previous !== resolved) {
     document.dispatchEvent(
@@ -68,8 +69,7 @@ function writePref(pref: ThemePref) {
   }
 }
 
-function syncButtons(pref: ThemePref) {
-  document.querySelectorAll<HTMLButtonElement>('[data-theme-pref]').forEach((button) => {
-    button.setAttribute('aria-pressed', String(button.dataset.themePref === pref));
-  });
+function syncToggle(button: HTMLButtonElement, resolved: ResolvedTheme) {
+  const next = resolved === 'dark' ? 'light' : 'dark';
+  button.setAttribute('aria-label', `Switch to ${next} theme`);
 }

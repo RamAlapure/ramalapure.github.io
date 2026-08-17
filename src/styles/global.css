@@ -88,45 +88,46 @@ main {
   padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
-  justify-content: space-between;
   gap: 1rem;
 }
 
-.site-header-end {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  flex-wrap: wrap;
-}
-
-.theme-toggle {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.theme-toggle button {
-  font: inherit;
-  font-size: 0.75rem;
-  color: var(--text-muted);
-  background: transparent;
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 0.2rem 0.5rem;
-  cursor: pointer;
-}
-
-.theme-toggle button:hover {
-  color: var(--text);
-}
-
-.theme-toggle button[aria-pressed='true'] {
-  color: var(--text);
-  border-color: var(--accent);
-}
 .site-name {
   font-weight: 600;
   color: var(--text);
   text-decoration: none;
+  margin-right: auto;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-left: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  color: var(--text-muted);
+  background: transparent;
+  border: 0;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.theme-toggle:hover {
+  color: var(--text);
+}
+
+.theme-icon {
+  width: 1.15rem;
+  height: 1.15rem;
+  display: none;
+}
+
+html[data-theme='dark'] .theme-icon-sun,
+html:not([data-theme]) .theme-icon-sun,
+html[data-theme='light'] .theme-icon-moon {
+  display: block;
 }
 
 .site-name:hover {
@@ -389,8 +390,12 @@ h2 {
 }
 @media (max-width: 600px) {
   .site-header-inner {
-    flex-direction: column;
-    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .site-nav {
+    order: 3;
+    flex-basis: 100%;
   }
 
   .post-nav {
