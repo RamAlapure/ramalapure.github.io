@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MermaidInit from '../../components/MermaidInit.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((project) => ({
+    params: { slug: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const { Content } = await project.render();
+---
+
+<BaseLayout title={project.data.title} description={project.data.description} current="projects">
+  <article class="page prose">
+    <p class="muted">
+      <span class={project.data.status === 'lab' ? 'status-lab' : 'status-shipped'}>
+        {project.data.status}
+      </span>
+    </p>
+    <h1>{project.data.title}</h1>
+    <Content />
+    <p><a href="/projects/">← All projects</a></p>
+  </article>
+  <MermaidInit />
+</BaseLayout>

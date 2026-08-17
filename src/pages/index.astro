@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing')).sort((a, b) => a.data.series - b.data.series);
+const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
+
+const latestPosts = [...posts].sort((a, b) => {
+  const da = a.data.date ?? '';
+  const db = b.data.date ?? '';
+  return db.localeCompare(da) || b.data.series - a.data.series;
+}).slice(0, 5);
+
+const shipped = projects.filter((p) => p.data.status === 'shipped').sort((a, b) => a.data.order - b.data.order);
+const lab = projects.filter((p) => p.data.status === 'lab').sort((a, b) => a.data.order - b.data.order);
+const featuredProjects = [...shipped.slice(0, 3), ...lab];
+---
+
+<BaseLayout>
+  <div class="page">
+    <h1>Ram Alapure</h1>
+    <p class="lead">AI systems for regulated industries. Java, agents, production engineering.</p>
+    <p>
+      I architect production-grade AI systems where reliability, governance, and predictability matter more than demos.
+      Java and Spring at scale, agentic workflows with planner–orchestrator–validator patterns, and enterprise-safe tool orchestration.
+    </p>
+    <p class="muted">Vice President, BNY · Pune, India</p>
+
+    <section class="list-section">
+      <h2>Writing</h2>
+      <ul class="entry-list">
+        {latestPosts.map((post) => (
+          <li>
+            <a href={`/writing/${post.slug}/`}>
+              Post #{post.data.series} — {post.data.title}
+            </a>
+            {post.data.date && <div class="entry-meta">{post.data.date}</div>}
+          </li>
+        ))}
+      </ul>
+      <p><a href="/writing/">All writing →</a></p>
+    </section>
+
+    <section class="list-section">
+      <h2>Projects</h2>
+      <ul class="entry-list">
+        {featuredProjects.map((project) => (
+          <li>
+            <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
+            <div class="entry-meta">
+              <span class={project.data.status === 'lab' ? 'status-lab' : 'status-shipped'}>
+                {project.data.status}
+              </span>
+              — {project.data.description}
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p><a href="/projects/">All projects →</a></p>
+    </section>
+  </div>
+</BaseLayout>

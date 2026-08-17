@@ -1,0 +1,48 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  current?: 'writing' | 'projects' | 'about';
+}
+
+const {
+  title = 'Ram Alapure',
+  description = 'AI systems for regulated industries. Java, agents, production engineering.',
+  current,
+} = Astro.props;
+
+const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <title>{pageTitle}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="site-header-inner">
+        <a class="site-name" href="/">Ram Alapure</a>
+        <nav class="site-nav" aria-label="Main">
+          <a href="/writing/" class:list={{ active: current === 'writing' }}>Writing</a>
+          <a href="/projects/" class:list={{ active: current === 'projects' }}>Projects</a>
+          <a href="/about/" class:list={{ active: current === 'about' }}>About</a>
+        </nav>
+      </div>
+    </header>
+    <main>
+      <slot />
+    </main>
+    <footer class="site-footer">
+      <a href="mailto:alapureram@gmail.com">alapureram@gmail.com</a>
+      <a href="https://www.linkedin.com/in/ramalapure" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+      <a href="https://github.com/RamAlapure" target="_blank" rel="noopener noreferrer">GitHub</a>
+    </footer>
+  </body>
+</html>

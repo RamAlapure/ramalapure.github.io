@@ -1,0 +1,59 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import MermaidInit from '../../components/MermaidInit.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('writing');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+
+const allPosts = (await getCollection('writing')).sort((a, b) => a.data.series - b.data.series);
+const idx = allPosts.findIndex((p) => p.slug === post.slug);
+const prev = idx > 0 ? allPosts[idx - 1] : null;
+const next = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
+---
+
+<BaseLayout title={post.data.title} description={post.data.title} current="writing">
+  <article class="page prose">
+    <p class="muted">Post #{post.data.series}{post.data.date ? ` · ${post.data.date}` : ''}</p>
+    <h1>{post.data.title}</h1>
+    <Content />
+
+    {post.data.linkedin && (
+      <p class="linkedin-link">
+        <a href={post.data.linkedin} target="_blank" rel="noopener noreferrer">Originally on LinkedIn →</a>
+      </p>
+    )}
+
+    <nav class="post-nav" aria-label="Post navigation">
+      <div>
+        {prev ? (
+          <a href={`/writing/${prev.slug}/`}>
+            <span>Previous</span>
+            Post #{prev.data.series} — {prev.data.title}
+          </a>
+        ) : (
+          <span />
+        )}
+      </div>
+      <div>
+        {next ? (
+          <a href={`/writing/${next.slug}/`}>
+            <span>Next</span>
+            Post #{next.data.series} — {next.data.title}
+          </a>
+        ) : (
+          <span />
+        )}
+      </div>
+    </nav>
+  </article>
+  <MermaidInit />
+</BaseLayout>

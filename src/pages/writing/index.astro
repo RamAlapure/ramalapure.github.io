@@ -1,0 +1,24 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('writing')).sort((a, b) => a.data.series - b.data.series);
+---
+
+<BaseLayout title="Writing" description="Production-grade AI agent architecture — a 17-post series." current="writing">
+  <div class="page">
+    <h1>Writing</h1>
+    <p class="lead">Production-grade AI agent architecture — a 17-post series on deterministic control, not demos.</p>
+
+    <ul class="entry-list">
+      {posts.map((post) => (
+        <li>
+          <a href={`/writing/${post.slug}/`}>
+            Post #{post.data.series} — {post.data.title}
+          </a>
+          {post.data.date && <div class="entry-meta">{post.data.date}</div>}
+        </li>
+      ))}
+    </ul>
+  </div>
+</BaseLayout>

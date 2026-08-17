@@ -1,0 +1,19 @@
+{
+  "name": "alapureram.com",
+  "type": "module",
+  "version": "2.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "node scripts/split-posts.mjs && astro build",
+    "preview": "astro preview",
+    "split-posts": "node scripts/split-posts.mjs"
+  },
+  "dependencies": {
+    "astro": "^5.7.10",
+    "mermaid": "^11.6.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.8.3"
+  }
+}
