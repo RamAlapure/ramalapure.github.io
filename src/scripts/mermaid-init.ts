@@ -1,20 +1,19 @@
 import mermaid from 'mermaid';
 
 let initialized = false;
+let mermaidTheme: 'dark' | 'default' | null = null;
 const sources = new WeakMap<HTMLElement, string>();
 
 export async function initMermaid() {
   captureSources();
 
-  const diagrams = Array.from(document.querySelectorAll<HTMLElement>('.mermaid')).filter(
-    (node) => !node.closest('[hidden]') && needsRender(node),
-  );
-  if (diagrams.length === 0) return;
+  const nextTheme = document.documentElement.dataset.theme === 'light' ? 'default' : 'dark';
+  const themeChanged = mermaidTheme !== null && mermaidTheme !== nextTheme;
 
-  if (!initialized) {
+  if (!initialized || themeChanged) {
     mermaid.initialize({
       startOnLoad: false,
-      theme: 'dark',
+      theme: nextTheme,
       securityLevel: 'loose',
       fontFamily: 'Segoe UI, system-ui, sans-serif',
       flowchart: {
@@ -26,7 +25,17 @@ export async function initMermaid() {
       },
     });
     initialized = true;
+    mermaidTheme = nextTheme;
   }
+
+  if (themeChanged) {
+    document.querySelectorAll<HTMLElement>('.mermaid').forEach(restoreSource);
+  }
+
+  const diagrams = Array.from(document.querySelectorAll<HTMLElement>('.mermaid')).filter(
+    (node) => !node.closest('[hidden]') && (themeChanged || needsRender(node)),
+  );
+  if (diagrams.length === 0) return;
 
   for (const node of diagrams) {
     restoreSource(node);

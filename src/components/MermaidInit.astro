@@ -1,6 +1,10 @@
 <script>
   import { initDiagramToggles } from '../scripts/diagram-toggle';
+  import { THEME_CHANGE_EVENT } from '../scripts/theme';
 
   initDiagramToggles();
   document.addEventListener('astro:page-load', initDiagramToggles);
+  document.addEventListener(THEME_CHANGE_EVENT, () => {
+    void initDiagramToggles();
+  });
 </script>

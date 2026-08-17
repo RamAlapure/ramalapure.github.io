@@ -19,6 +19,25 @@ const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
 <!doctype html>
 <html lang="en">
   <head>
+    <script is:inline>
+      (function () {
+        var pref = 'system';
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark' || stored === 'system') pref = stored;
+        } catch (e) {}
+        var resolved =
+          pref === 'system'
+            ? window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+            : pref;
+        var root = document.documentElement;
+        root.dataset.theme = resolved;
+        root.dataset.themePref = pref;
+        root.style.colorScheme = resolved;
+      })();
+    </script>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
@@ -29,11 +48,18 @@ const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
     <header class="site-header">
       <div class="site-header-inner">
         <a class="site-name" href="/">Ram Alapure</a>
-        <nav class="site-nav" aria-label="Main">
-          <a href="/writing/" class:list={{ active: current === 'writing' }}>Writing</a>
-          <a href="/projects/" class:list={{ active: current === 'projects' }}>Projects</a>
-          <a href="/about/" class:list={{ active: current === 'about' }}>About</a>
-        </nav>
+        <div class="site-header-end">
+          <nav class="site-nav" aria-label="Main">
+            <a href="/writing/" class:list={{ active: current === 'writing' }}>Writing</a>
+            <a href="/projects/" class:list={{ active: current === 'projects' }}>Projects</a>
+            <a href="/about/" class:list={{ active: current === 'about' }}>About</a>
+          </nav>
+          <div class="theme-toggle" role="group" aria-label="Color theme">
+            <button type="button" data-theme-pref="light">Light</button>
+            <button type="button" data-theme-pref="dark">Dark</button>
+            <button type="button" data-theme-pref="system">System</button>
+          </div>
+        </div>
       </div>
     </header>
     <main>
@@ -44,5 +70,9 @@ const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
       <a href="https://www.linkedin.com/in/ramalapure" target="_blank" rel="noopener noreferrer">LinkedIn</a>
       <a href="https://github.com/RamAlapure" target="_blank" rel="noopener noreferrer">GitHub</a>
     </footer>
+    <script>
+      import { initThemeControls } from '../scripts/theme';
+      initThemeControls();
+    </script>
   </body>
 </html>

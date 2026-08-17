@@ -1,4 +1,12 @@
 :root {
+  --max-width: 42rem;
+  --page-width: 52rem;
+  --font: "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-mono: "Cascadia Code", "Consolas", monospace;
+}
+
+html:not([data-theme]),
+html[data-theme='dark'] {
   color-scheme: dark;
   --bg: #0f1114;
   --bg-elevated: #171a21;
@@ -6,12 +14,21 @@
   --text-muted: #9aa3ad;
   --accent: #7eb8da;
   --border: #2a3038;
-  --max-width: 42rem;
-  --page-width: 52rem;
-  --font: "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-mono: "Cascadia Code", "Consolas", monospace;
+  --status-lab: #c9a227;
+  --status-shipped: #6bbf8a;
 }
 
+html[data-theme='light'] {
+  color-scheme: light;
+  --bg: #f7f8fa;
+  --bg-elevated: #eef0f3;
+  --text: #1c1f24;
+  --text-muted: #5c6570;
+  --accent: #1a6a94;
+  --border: #d5dbe2;
+  --status-lab: #8a6a10;
+  --status-shipped: #217a4c;
+}
 *,
 *::before,
 *::after {
@@ -75,6 +92,37 @@ main {
   gap: 1rem;
 }
 
+.site-header-end {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.theme-toggle {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.theme-toggle button {
+  font: inherit;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: transparent;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.2rem 0.5rem;
+  cursor: pointer;
+}
+
+.theme-toggle button:hover {
+  color: var(--text);
+}
+
+.theme-toggle button[aria-pressed='true'] {
+  color: var(--text);
+  border-color: var(--accent);
+}
 .site-name {
   font-weight: 600;
   color: var(--text);
@@ -333,13 +381,12 @@ h2 {
 }
 
 .status-lab {
-  color: #c9a227;
+  color: var(--status-lab);
 }
 
 .status-shipped {
-  color: #6bbf8a;
+  color: var(--status-shipped);
 }
-
 @media (max-width: 600px) {
   .site-header-inner {
     flex-direction: column;

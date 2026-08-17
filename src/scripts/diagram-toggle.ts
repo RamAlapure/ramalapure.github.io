@@ -52,6 +52,10 @@ function applyView(toggle: HTMLElement, view: 'image' | 'mermaid') {
   toggle.querySelectorAll<HTMLButtonElement>('.diagram-toggle-btn').forEach((button) => {
     button.setAttribute('aria-pressed', String(button.dataset.view === view));
   });
+
+  if (view === 'mermaid') {
+    void initMermaid();
+  }
 }
 
 function prepareMermaidPanel(toggle: HTMLElement) {
