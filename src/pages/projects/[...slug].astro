@@ -13,6 +13,13 @@ export async function getStaticPaths() {
 
 const { project } = Astro.props;
 const { Content } = await project.render();
+
+const writingBySlug = new Map(
+  (await getCollection('writing')).map((post) => [post.slug, post]),
+);
+const relatedPosts = project.data.related
+  .map((slug) => writingBySlug.get(slug))
+  .filter((post): post is NonNullable<typeof post> => post !== undefined);
 ---
 
 <BaseLayout title={project.data.title} description={project.data.description} current="projects">
@@ -25,6 +32,20 @@ const { Content } = await project.render();
     <h1>{project.data.title}</h1>
     {project.data.award && <p class="project-award">{project.data.award}</p>}
     <Content />
+
+    {relatedPosts.length > 0 && (
+      <section class="related-writing">
+        <h2>Related writing</h2>
+        <ul class="entry-list">
+          {relatedPosts.map((post) => (
+            <li>
+              <a href={`/writing/${post.slug}/`}>{post.data.title}</a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    )}
+
     <p><a href="/projects/">← All projects</a></p>
   </article>
   <MermaidInit />

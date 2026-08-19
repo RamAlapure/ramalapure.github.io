@@ -20,6 +20,7 @@ const projects = defineCollection({
     order: z.number().default(99),
     description: z.string(),
     award: z.string().optional(),
+    related: z.array(z.string()).default([]),
   }),
 });
 
