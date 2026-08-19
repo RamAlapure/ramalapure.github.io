@@ -1,5 +1,6 @@
 ---
 title: "The God Agent is dead. Long live multi-agent routing"
+summary: "Enterprise scale needs specialized agents and routing—not one omniscient God Agent."
 series: 14
 date: "2026-03-25"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7442414033821016064-IVAe

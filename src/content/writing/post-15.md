@@ -1,5 +1,6 @@
 ---
 title: "Multi-agent systems need a Human Gateway"
+summary: "High-impact multi-agent decisions need an explicit Human Gateway for approval before execution."
 series: 15
 date: "2026-04-04"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-aiarchitecture-activity-7446090916664123393-UN0u

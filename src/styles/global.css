@@ -178,6 +178,58 @@ h1 + .lead {
   color: var(--text-muted);
 }
 
+.stack-line {
+  font-size: 0.9rem;
+  margin: 0.5rem 0 0;
+}
+
+.hero-actions {
+  margin: 1.25rem 0 0;
+  font-size: 0.95rem;
+}
+
+.hero-actions-sep {
+  color: var(--text-muted);
+  margin: 0 0.35rem;
+}
+
+.concept-list,
+.principles-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.concept-list li,
+.principles-list li {
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.concept-list li:last-child,
+.principles-list li:last-child {
+  border-bottom: 0;
+}
+
+.section-lead {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: -0.25rem 0 0.75rem;
+  font-style: italic;
+}
+
+.entry-summary,
+.article-summary {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0.35rem 0 0;
+  line-height: 1.5;
+}
+
+.article-summary {
+  margin-bottom: 1.25rem;
+}
+
 h1 {
   font-size: 1.75rem;
   font-weight: 600;
@@ -237,8 +289,42 @@ h2 {
   color: var(--text-muted);
 }
 
+.site-footer-line {
+  margin: 0 0 0.75rem;
+  color: var(--text-muted);
+}
+
+.site-footer-links {
+  margin: 0 0 0.5rem;
+}
+
+.site-footer-links a {
+  margin-right: 1rem;
+}
+
+.site-footer-copy {
+  margin: 0;
+  font-size: 0.85rem;
+}
+
 .site-footer a {
   margin-right: 1rem;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  main {
+    animation: none;
+  }
 }
 
 .prose {

@@ -11,10 +11,14 @@ const lab = (await getCollection('projects'))
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
-<BaseLayout title="Projects" description="Shipped engineering work and lab explorations." current="projects">
+<BaseLayout
+  title="Projects"
+  description="Shipped engineering work and lab experiments — production systems and intentional explorations."
+  current="projects"
+>
   <div class="page">
     <h1>Projects</h1>
-    <p class="lead">Shipped engineering work and lab explorations. Agents run separately from this static site.</p>
+    <p class="lead">Shipped engineering work and lab explorations.</p>
 
     <section class="list-section">
       <h2>Shipped</h2>
@@ -29,12 +33,13 @@ const lab = (await getCollection('projects'))
     </section>
 
     <section class="list-section">
-      <h2>In progress</h2>
+      <h2>Lab</h2>
+      <p class="section-lead">Experiments before they become production systems.</p>
       <ul class="entry-list">
         {lab.map((project) => (
           <li>
             <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
-            <div class="entry-meta status-lab">lab — {project.data.description}</div>
+            <div class="entry-meta status-lab">{project.data.description}</div>
           </li>
         ))}
       </ul>

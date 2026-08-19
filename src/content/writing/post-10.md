@@ -1,5 +1,6 @@
 ---
 title: "Agents need authority boundaries"
+summary: "Agents need explicit authority boundaries and permission scopes before planned actions run."
 series: 10
 date: "2026-03-13"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7438110584300158976-R7rW

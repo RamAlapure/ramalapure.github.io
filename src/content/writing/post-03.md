@@ -1,5 +1,6 @@
 ---
 title: "Validation is not a single gate"
+summary: "Production validators are layered decision engines—not a single boolean gate at the end."
 series: 3
 date: "2026-02-22"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7431381232552316928-Ax_Y

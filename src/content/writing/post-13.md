@@ -1,5 +1,6 @@
 ---
 title: "If you don't have evals, you don't have a production agent"
+summary: "Without evaluation loops in CI, you have a prototype—not a production agent you can safely operate."
 series: 13
 date: "2026-03-23"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-eval-activity-7441687034655617024-GSO3

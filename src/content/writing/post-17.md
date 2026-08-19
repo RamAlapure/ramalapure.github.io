@@ -1,5 +1,6 @@
 ---
 title: "Stop letting your LLM see your secrets"
+summary: "Agentic workflows need bidirectional PII masking through a continuous protection gateway, not one-time front-door filtering."
 series: 17
 date: "2026-07-29"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-aiagents-aiarchitecture-activity-7488080411840118784-MCQJ

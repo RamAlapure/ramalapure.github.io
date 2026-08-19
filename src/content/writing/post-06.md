@@ -1,5 +1,6 @@
 ---
 title: "Resilience is replay-safe execution, not more retries"
+summary: "Agent reliability requires idempotent, replay-safe execution—not blind retries on multi-step workflows."
 series: 6
 date: "2026-02-28"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7433516104494424064-3cdt

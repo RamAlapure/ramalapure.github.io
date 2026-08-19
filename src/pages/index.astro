@@ -5,58 +5,86 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('writing')).sort((a, b) => a.data.series - b.data.series);
 const projects = (await getCollection('projects')).sort((a, b) => a.data.order - b.data.order);
 
-const latestPosts = [...posts].sort((a, b) => {
-  const da = a.data.date ?? '';
-  const db = b.data.date ?? '';
-  return db.localeCompare(da) || b.data.series - a.data.series;
-}).slice(0, 5);
+const latestPosts = [...posts]
+  .sort((a, b) => {
+    const da = a.data.date ?? '';
+    const db = b.data.date ?? '';
+    return db.localeCompare(da) || b.data.series - a.data.series;
+  })
+  .slice(0, 4);
 
 const shipped = projects.filter((p) => p.data.status === 'shipped').sort((a, b) => a.data.order - b.data.order);
-const lab = projects.filter((p) => p.data.status === 'lab').sort((a, b) => a.data.order - b.data.order);
-const featuredProjects = [...shipped.slice(0, 3), ...lab];
+
+const siteDescription =
+  'Ram Alapure builds production-grade AI for regulated industries—Java, Spring, agent systems, and deterministic control.';
 ---
 
-<BaseLayout description="Ram Alapure — AI systems for regulated industries. Java, agents, production engineering.">
+<BaseLayout description={siteDescription}>
   <div class="page">
-    <h1>I design production-grade AI for regulated industries.</h1>
-    <p class="lead">Java, Spring, and agent systems with deterministic control — not demos.</p>
-    <p>
-      Reliability, governance, and predictability matter more than a clever prompt.
-      I work on planner–orchestrator–validator patterns, enterprise-safe tool orchestration, and Java/Spring at scale.
-    </p>
-    <p class="muted">Vice President, BNY · Pune, India</p>
-
-    <section class="list-section">
-      <h2>Writing</h2>
-      <ul class="entry-list">
-        {latestPosts.map((post) => (
-          <li>
-            <a href={`/writing/${post.slug}/`}>
-              Post #{post.data.series} — {post.data.title}
-            </a>
-            {post.data.date && <div class="entry-meta">{post.data.date}</div>}
-          </li>
-        ))}
-      </ul>
-      <p><a href="/writing/">All writing →</a></p>
+    <section class="hero">
+      <h1>I design production-grade AI for regulated industries.</h1>
+      <p class="lead">Java, Spring, and agent systems with deterministic control — not demos.</p>
+      <p class="muted stack-line">Java · Spring · Agent Systems · AI Governance</p>
+      <p class="hero-actions">
+        <a href="/projects/">Explore my work</a>
+        <span class="hero-actions-sep">·</span>
+        <a href="/writing/">Read my thinking</a>
+      </p>
     </section>
 
     <section class="list-section">
-      <h2>Projects</h2>
+      <h2>What I build</h2>
+      <ul class="concept-list">
+        <li>
+          <strong>Enterprise AI</strong> — systems that operate inside real enterprise constraints.
+        </li>
+        <li>
+          <strong>Agent systems</strong> — orchestration, tools, MCP, RAG, validation.
+        </li>
+        <li>
+          <strong>Reliable AI</strong> — security, governance, observability, deterministic control.
+        </li>
+      </ul>
+    </section>
+
+    <section class="list-section">
+      <h2>How I think about production AI</h2>
+      <ul class="principles-list">
+        <li>Deterministic control.</li>
+        <li>Least privilege.</li>
+        <li>Validation before trust.</li>
+        <li>Human control for high-impact decisions.</li>
+      </ul>
+    </section>
+
+    <section class="list-section">
+      <h2>Things I've built</h2>
       <ul class="entry-list">
-        {featuredProjects.map((project) => (
+        {shipped.map((project) => (
           <li>
             <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
-            <div class="entry-meta">
-              <span class={project.data.status === 'lab' ? 'status-lab' : 'status-shipped'}>
-                {project.data.status}
-              </span>
-              — {project.data.description}
-            </div>
+            <div class="entry-meta">{project.data.description}</div>
           </li>
         ))}
       </ul>
       <p><a href="/projects/">All projects →</a></p>
+    </section>
+
+    <section class="list-section">
+      <h2>Recent thinking</h2>
+      <ul class="entry-list">
+        {latestPosts.map((post) => (
+          <li>
+            <a href={`/writing/${post.slug}/`}>{post.data.title}</a>
+            <div class="entry-meta">
+              Series #{post.data.series}
+              {post.data.date ? ` · ${post.data.date}` : ''}
+            </div>
+            {post.data.summary && <p class="entry-summary">{post.data.summary}</p>}
+          </li>
+        ))}
+      </ul>
+      <p><a href="/writing/">All writing →</a></p>
     </section>
   </div>
 </BaseLayout>

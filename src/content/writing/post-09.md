@@ -1,5 +1,6 @@
 ---
 title: "Planner risk: is the plan safe to execute?"
+summary: "Production risk concentrates in the planner—validate whether a plan is safe to execute, not just final outputs."
 series: 9
 date: "2026-03-08"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7436342711500300288-iqox

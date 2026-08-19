@@ -1,5 +1,6 @@
 ---
 title: "Most AI demos work. Most AI systems fail in production."
+summary: "Why production AI in regulated industries needs determinism, observability, and governance beyond what demos require."
 series: 1
 date: "2026-02-17"
 linkedin: https://www.linkedin.com/posts/ramalapure_most-ai-demos-work-most-ai-systems-fail-activity-7429368552131809281-0vb3

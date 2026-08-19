@@ -18,12 +18,23 @@ const allPosts = (await getCollection('writing')).sort((a, b) => a.data.series -
 const idx = allPosts.findIndex((p) => p.slug === post.slug);
 const prev = idx > 0 ? allPosts[idx - 1] : null;
 const next = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
+
+const metaParts = [`Series #${post.data.series}`];
+if (post.data.date) metaParts.push(post.data.date);
+if (post.data.tags.length > 0) metaParts.push(post.data.tags.join(' · '));
+const metaLine = metaParts.join(' · ');
 ---
 
-<BaseLayout title={post.data.title} description={post.data.title} current="writing">
+<BaseLayout
+  title={post.data.title}
+  description={post.data.summary}
+  current="writing"
+  ogType="article"
+>
   <article class="page prose">
-    <p class="muted">Post #{post.data.series}{post.data.date ? ` · ${post.data.date}` : ''}</p>
+    <p class="muted">{metaLine}</p>
     <h1>{post.data.title}</h1>
+    <p class="article-summary">{post.data.summary}</p>
     <Content />
 
     {post.data.linkedin && (
@@ -37,7 +48,7 @@ const next = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
         {prev ? (
           <a href={`/writing/${prev.slug}/`}>
             <span>Previous</span>
-            Post #{prev.data.series} — {prev.data.title}
+            {prev.data.title}
           </a>
         ) : (
           <span />
@@ -47,7 +58,7 @@ const next = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
         {next ? (
           <a href={`/writing/${next.slug}/`}>
             <span>Next</span>
-            Post #{next.data.series} — {next.data.title}
+            {next.data.title}
           </a>
         ) : (
           <span />

@@ -1,5 +1,6 @@
 ---
 title: "Production agents are distributed systems, not smarter prompts"
+summary: "Multi-step agents need coordination, state, and failure handling like distributed systems—not smarter prompts."
 series: 4
 date: "2026-02-24"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7432051775983194112-ZuHC

@@ -1,5 +1,6 @@
 ---
 title: "Agents fail at observation, not only execution"
+summary: "Production agent failures often stem from poor observability across orchestrated steps, not just bad execution."
 series: 5
 date: "2026-02-26"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7432828371211841536-dc9h

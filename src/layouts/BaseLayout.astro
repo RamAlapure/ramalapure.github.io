@@ -5,15 +5,23 @@ interface Props {
   title?: string;
   description?: string;
   current?: 'writing' | 'projects' | 'about';
+  ogType?: 'website' | 'article';
 }
 
 const {
   title = 'Ram Alapure',
-  description = 'AI systems for regulated industries. Java, agents, production engineering.',
+  description = 'Ram Alapure builds production-grade AI for regulated industries—Java, Spring, agent systems, and deterministic control.',
   current,
+  ogType = 'website',
 } = Astro.props;
 
-const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
+const isHome = title === 'Ram Alapure';
+const pageTitle = isHome ? 'Ram Alapure · Enterprise AI Architect' : `${title} · Ram Alapure`;
+
+const canonicalPath = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+const canonicalUrl = new URL(canonicalPath, Astro.site).href;
+
+const year = new Date().getFullYear();
 ---
 
 <!doctype html>
@@ -41,6 +49,12 @@ const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:site_name" content="Ram Alapure" />
     <title>{pageTitle}</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
   </head>
@@ -81,9 +95,13 @@ const pageTitle = title === 'Ram Alapure' ? title : `${title} · Ram Alapure`;
       <slot />
     </main>
     <footer class="site-footer">
-      <a href="mailto:alapureram@gmail.com">alapureram@gmail.com</a>
-      <a href="https://www.linkedin.com/in/ramalapure" target="_blank" rel="noopener noreferrer">LinkedIn</a>
-      <a href="https://github.com/RamAlapure" target="_blank" rel="noopener noreferrer">GitHub</a>
+      <p class="site-footer-line">Building production-grade AI for regulated industries.</p>
+      <p class="site-footer-links">
+        <a href="mailto:alapureram@gmail.com">alapureram@gmail.com</a>
+        <a href="https://www.linkedin.com/in/ramalapure" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+        <a href="https://github.com/RamAlapure" target="_blank" rel="noopener noreferrer">GitHub</a>
+      </p>
+      <p class="site-footer-copy muted">© {year} Ram Alapure</p>
     </footer>
     <script>
       import { initThemeControls } from '../scripts/theme';

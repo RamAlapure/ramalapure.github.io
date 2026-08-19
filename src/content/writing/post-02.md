@@ -1,5 +1,6 @@
 ---
 title: "Agents must not execute tools from raw model output"
+summary: "Tool invocation must be validated and decoupled from raw LLM output before anything executes."
 series: 2
 date: "2026-02-19"
 linkedin: https://www.linkedin.com/posts/ramalapure_a-recurring-pattern-ive-seen-when-ai-agents-activity-7430268073825341440-dcGJ

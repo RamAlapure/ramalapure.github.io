@@ -57,6 +57,26 @@ const linkedinMap = {
   17: 'https://www.linkedin.com/posts/ramalapure_ai-aiagents-aiarchitecture-activity-7488080411840118784-MCQJ',
 };
 
+const summaryMap = {
+  1: 'Why production AI in regulated industries needs determinism, observability, and governance beyond what demos require.',
+  2: 'Tool invocation must be validated and decoupled from raw LLM output before anything executes.',
+  3: 'Production validators are layered decision engines—not a single boolean gate at the end.',
+  4: 'Multi-step agents need coordination, state, and failure handling like distributed systems—not smarter prompts.',
+  5: 'Production agent failures often stem from poor observability across orchestrated steps, not just bad execution.',
+  6: 'Agent reliability requires idempotent, replay-safe execution—not blind retries on multi-step workflows.',
+  7: 'Multi-step agents need compensating actions and rollback when retries cannot restore consistent state.',
+  8: 'Most enterprise agents lack true autonomy—goal ownership, constraint negotiation, and persistence are rarely satisfied.',
+  9: 'Production risk concentrates in the planner—validate whether a plan is safe to execute, not just final outputs.',
+  10: 'Agents need explicit authority boundaries and permission scopes before planned actions run.',
+  11: 'Ten architecture lessons from building planner–orchestrator–validator agents for production environments.',
+  12: 'Production agents need a structured knowledge layer—not prompt-only context—for grounded reasoning.',
+  13: 'Without evaluation loops in CI, you have a prototype—not a production agent you can safely operate.',
+  14: 'Enterprise scale needs specialized agents and routing—not one omniscient God Agent.',
+  15: 'High-impact multi-agent decisions need an explicit Human Gateway for approval before execution.',
+  16: 'Security must be a decoupled AI Firewall—not a system prompt asking the model to behave.',
+  17: 'Agentic workflows need bidirectional PII masking through a continuous protection gateway, not one-time front-door filtering.',
+};
+
 fs.mkdirSync(outDir, { recursive: true });
 
 for (const section of sections) {
@@ -96,6 +116,7 @@ for (const section of sections) {
   const frontmatter = [
     '---',
     `title: "${title.replace(/"/g, '\\"')}"`,
+    `summary: "${summaryMap[num].replace(/"/g, '\\"')}"`,
     `series: ${num}`,
     date ? `date: "${date}"` : null,
     linkedin ? `linkedin: ${linkedin}` : null,

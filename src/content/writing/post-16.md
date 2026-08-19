@@ -1,5 +1,6 @@
 ---
 title: "Stop asking your LLM to behave"
+summary: "Security must be a decoupled AI Firewall—not a system prompt asking the model to behave."
 series: 16
 date: "2026-04-18"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-aiarchitecture-activity-7451149596275335168-hgfk

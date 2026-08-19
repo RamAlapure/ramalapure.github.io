@@ -1,5 +1,6 @@
 ---
 title: "The illusion of autonomous agents"
+summary: "Most enterprise agents lack true autonomy—goal ownership, constraint negotiation, and persistence are rarely satisfied."
 series: 8
 date: "2026-03-06"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7435520123098189825-Reyr

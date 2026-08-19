@@ -5,18 +5,25 @@ import { getCollection } from 'astro:content';
 const posts = (await getCollection('writing')).sort((a, b) => a.data.series - b.data.series);
 ---
 
-<BaseLayout title="Writing" description="Production-grade AI agent architecture — a 17-post series." current="writing">
+<BaseLayout
+  title="Writing"
+  description="Production AI architecture — a 17-part series on deterministic control, agents, and enterprise engineering."
+  current="writing"
+>
   <div class="page">
     <h1>Writing</h1>
-    <p class="lead">Production-grade AI agent architecture — a 17-post series on deterministic control, not demos.</p>
+    <p class="lead">Production-grade AI agent architecture — deterministic control, not demos.</p>
 
     <ul class="entry-list">
       {posts.map((post) => (
         <li>
-          <a href={`/writing/${post.slug}/`}>
-            Post #{post.data.series} — {post.data.title}
-          </a>
-          {post.data.date && <div class="entry-meta">{post.data.date}</div>}
+          <a href={`/writing/${post.slug}/`}>{post.data.title}</a>
+          <div class="entry-meta">
+            Series #{post.data.series}
+            {post.data.date ? ` · ${post.data.date}` : ''}
+            {post.data.tags.length > 0 && ` · ${post.data.tags.join(' · ')}`}
+          </div>
+          <p class="entry-summary">{post.data.summary}</p>
         </li>
       ))}
     </ul>

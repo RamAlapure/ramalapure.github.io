@@ -1,5 +1,6 @@
 ---
 title: "Production AI agents need a knowledge layer (not just prompts)"
+summary: "Production agents need a structured knowledge layer—not prompt-only context—for grounded reasoning."
 series: 12
 date: "2026-03-21"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7441012428265537536-XHii

@@ -1,5 +1,6 @@
 ---
 title: "Agents are distributed transaction coordinators"
+summary: "Multi-step agents need compensating actions and rollback when retries cannot restore consistent state."
 series: 7
 date: "2026-03-03"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-resilience-activity-7434506374165815296-QmEF

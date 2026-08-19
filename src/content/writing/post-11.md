@@ -1,5 +1,6 @@
 ---
 title: "10 architecture lessons from building production-grade AI agents"
+summary: "Ten architecture lessons from building planner–orchestrator–validator agents for production environments."
 series: 11
 date: "2026-03-17"
 linkedin: https://www.linkedin.com/posts/ramalapure_ai-agent-activity-7439545533654007808-oioB
