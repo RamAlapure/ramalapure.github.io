@@ -454,6 +454,129 @@ button:focus-visible {
   text-align: center;
 }
 
+.prose pre.mermaid {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 1.5rem 0;
+  text-align: center;
+  font-family: inherit;
+  font-size: inherit;
+  overflow-x: auto;
+}
+
+.eliza-arch {
+  margin: 1.5rem 0;
+  padding: 1.5rem 1.25rem 1.35rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eliza-arch-row {
+  width: min(32rem, 100%);
+  display: flex;
+  justify-content: center;
+}
+
+.eliza-arch-row-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.eliza-arch-box {
+  width: 100%;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.65rem 0.85rem;
+  text-align: center;
+  background: var(--bg);
+  line-height: 1.35;
+}
+
+.eliza-arch-box strong {
+  display: block;
+  font-weight: 600;
+}
+
+.eliza-arch-box span {
+  display: block;
+  color: var(--text-muted);
+  font-size: 0.9em;
+}
+
+.eliza-arch-core {
+  width: min(32rem, 100%);
+  margin-top: 0.15rem;
+  padding: 0.35rem 1rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.eliza-arch-core .eliza-arch-box {
+  width: min(18.5rem, 100%);
+}
+
+.eliza-arch-row:not(.eliza-arch-row-2) .eliza-arch-box {
+  width: fit-content;
+  padding-inline: 1.15rem;
+}
+
+.eliza-arch-core-title {
+  margin: -1.05rem auto 0.7rem;
+  width: fit-content;
+  padding: 0 0.55rem;
+  background: var(--bg-elevated);
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.eliza-arch-join {
+  width: min(32rem, 100%);
+  height: 28px;
+  margin: 0.15rem 0 -0.15rem;
+  overflow: visible;
+}
+
+.eliza-arch-join path {
+  fill: none;
+  stroke: var(--text-muted);
+  stroke-width: 1.25;
+}
+
+.eliza-arch-arrow {
+  width: 1px;
+  height: 18px;
+  margin: 0.2rem auto;
+  background: var(--text-muted);
+}
+
+.prose .eliza-arch p {
+  margin: 0;
+}
+
+@media (max-width: 520px) {
+  .eliza-arch {
+    padding: 1.15rem 0.7rem 1.1rem;
+  }
+
+  .eliza-arch-row-2 {
+    gap: 0.65rem;
+  }
+
+  .eliza-arch-box {
+    padding: 0.55rem 0.4rem;
+    font-size: 0.92rem;
+  }
+}
+
 .page.prose {
   max-width: var(--page-width);
 }
