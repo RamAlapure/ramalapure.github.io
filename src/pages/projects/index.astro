@@ -26,6 +26,7 @@ const lab = (await getCollection('projects'))
         {shipped.map((project) => (
           <li>
             <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
+            {project.data.award && <div class="project-award">{project.data.award}</div>}
             <div class="entry-meta">{project.data.description}</div>
           </li>
         ))}

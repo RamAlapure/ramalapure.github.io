@@ -226,6 +226,18 @@ h1 + .lead {
   line-height: 1.5;
 }
 
+.project-award {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--status-shipped);
+  margin-top: 0.2rem;
+}
+
+.career-arc {
+  font-size: 1.05rem;
+  line-height: 1.6;
+}
+
 .article-summary {
   margin-bottom: 1.25rem;
 }

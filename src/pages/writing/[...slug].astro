@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MermaidInit from '../../components/MermaidInit.astro';
 import { getCollection } from 'astro:content';
+import { formatSeriesLabel } from '../../lib/writing';
 
 export async function getStaticPaths() {
   const posts = await getCollection('writing');
@@ -19,7 +20,7 @@ const idx = allPosts.findIndex((p) => p.slug === post.slug);
 const prev = idx > 0 ? allPosts[idx - 1] : null;
 const next = idx < allPosts.length - 1 ? allPosts[idx + 1] : null;
 
-const metaParts = [`Series #${post.data.series}`];
+const metaParts = [formatSeriesLabel(post.data.series)];
 if (post.data.date) metaParts.push(post.data.date);
 if (post.data.tags.length > 0) metaParts.push(post.data.tags.join(' · '));
 const metaLine = metaParts.join(' · ');

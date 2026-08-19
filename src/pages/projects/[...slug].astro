@@ -23,6 +23,7 @@ const { Content } = await project.render();
       </span>
     </p>
     <h1>{project.data.title}</h1>
+    {project.data.award && <p class="project-award">{project.data.award}</p>}
     <Content />
     <p><a href="/projects/">← All projects</a></p>
   </article>

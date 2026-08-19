@@ -2,7 +2,8 @@
 title: FINOS DTCC India AI Hackathon
 status: shipped
 order: 3
-description: 3rd prize — agentic workflow theme among 40+ organizations (CTRL+ALT+GEEKS, BNY).
+award: 3rd Prize
+description: Agentic workflow · 40+ organizations (CTRL+ALT+GEEKS, BNY).
 ---
 
 ## Problem

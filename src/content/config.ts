@@ -19,6 +19,7 @@ const projects = defineCollection({
     status: z.enum(['shipped', 'lab']),
     order: z.number().default(99),
     description: z.string(),
+    award: z.string().optional(),
   }),
 });
 
