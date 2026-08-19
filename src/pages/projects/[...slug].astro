@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import MermaidInit from '../../components/MermaidInit.astro';
 import { getCollection } from 'astro:content';
+import { formatSeriesLabel } from '../../lib/writing';
 
 export async function getStaticPaths() {
   const projects = await getCollection('projects');
@@ -35,11 +36,12 @@ const relatedPosts = project.data.related
 
     {relatedPosts.length > 0 && (
       <section class="related-writing">
-        <h2>Related writing</h2>
+        <h2>Related thinking</h2>
         <ul class="entry-list">
           {relatedPosts.map((post) => (
             <li>
               <a href={`/writing/${post.slug}/`}>{post.data.title}</a>
+              <div class="entry-meta">{formatSeriesLabel(post.data.series)}</div>
             </li>
           ))}
         </ul>

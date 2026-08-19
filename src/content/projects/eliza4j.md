@@ -98,4 +98,4 @@ The library does not replace your orchestration architecture. It gives Java team
 
 ## Outcome
 
-Shipped internally at BNY as a reusable path for Java teams building on Eliza AI Agents and LLMs. Open-source exploration continues under the same enterprise constraints — no fabricated adoption metrics, but a real framework rather than one-off integrations.
+Shipped internally at BNY as a reusable path for Java teams building on Eliza AI Agents and LLMs. Open-source exploration continues around the same enterprise constraints — no fabricated adoption metrics, but a real framework rather than one-off integrations.

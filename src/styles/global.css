@@ -237,14 +237,6 @@ h1 + .lead {
   margin-top: 2.5rem;
 }
 
-.related-writing h2 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  color: var(--text-muted);
-  margin-bottom: 0.75rem;
-}
-
 .related-writing .entry-list li:last-child {
   border-bottom: 0;
 }
