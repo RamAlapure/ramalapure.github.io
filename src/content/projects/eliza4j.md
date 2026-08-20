@@ -27,45 +27,14 @@ Eliza4J was shaped by enterprise and regulated-industry requirements, not a stan
 
 Eliza4J provides a unified backend that bridges two major Java AI frameworks — Spring AI and LangChain4j — through a single integration point.
 
-<figure class="eliza-arch" aria-label="Eliza4J architecture">
-  <div class="eliza-arch-row eliza-arch-row-2">
-    <div class="eliza-arch-box">
-      <strong>Spring AI Path</strong>
-      <span>(Advisors · Tools · MCP)</span>
-    </div>
-    <div class="eliza-arch-box">
-      <strong>LangChain4j Path</strong>
-      <span>(Agent executor · AI services)</span>
-    </div>
-  </div>
-  <svg class="eliza-arch-join" viewBox="0 0 200 28" aria-hidden="true">
-    <path d="M50 0 V12 H100 V28" />
-    <path d="M150 0 V12 H100 V28" />
-  </svg>
-  <div class="eliza-arch-core">
-    <p class="eliza-arch-core-title">Eliza4J</p>
-    <div class="eliza-arch-box">
-      <strong>Unified Service</strong>
-      <span>(Chat · Embeddings · Vision · Speech)</span>
-    </div>
-    <div class="eliza-arch-arrow" aria-hidden="true"></div>
-    <div class="eliza-arch-box">
-      <strong>SPI Extensions</strong>
-      <span>(Observability · PII Masking)</span>
-    </div>
-    <div class="eliza-arch-arrow" aria-hidden="true"></div>
-    <div class="eliza-arch-box">
-      <strong>Infrastructure</strong>
-      <span>(Auth · Retry)</span>
-    </div>
-  </div>
-  <div class="eliza-arch-arrow" aria-hidden="true"></div>
-  <div class="eliza-arch-row">
-    <div class="eliza-arch-box">
-      <strong>Eliza AI Agents/LLMs</strong>
-    </div>
-  </div>
-</figure>
+```mermaid
+flowchart TD
+  SpringAI["Spring AI Path<br/>(Advisors, Tools, MCP)"] --> Unified["Unified Service<br/>(Chat, Embeddings, Vision, Speech)"]
+  LangChain["LangChain4j Path<br/>(Agent executor, AI services)"] --> Unified
+  Unified --> SPI["SPI Extensions<br/>(Observability, PII Masking)"]
+  SPI --> Infra["Infrastructure<br/>(Auth, Retry)"]
+  Infra --> Agents["Eliza AI Agents / LLMs"]
+```
 
 A message conversion layer handles bidirectional translation between the two frameworks. Teams can use Spring AI for some features and LangChain4j for others in the same application.
 

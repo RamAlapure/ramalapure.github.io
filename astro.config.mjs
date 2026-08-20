@@ -11,6 +11,11 @@ export default defineConfig({
     remarkPlugins: [remarkMermaid, remarkMermaidRow, remarkDiagramToggle, remarkExternalLinks],
     shikiConfig: {
       theme: 'github-dark',
+      wrap: false,
+    },
+    syntaxHighlight: {
+      type: 'shiki',
+      excludeLangs: ['mermaid', 'math'],
     },
   },
 });

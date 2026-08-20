@@ -52,7 +52,11 @@ function isMermaidHtml(node) {
     node.type === 'html' &&
     'value' in node &&
     typeof node.value === 'string' &&
-    (node.value.startsWith('<div class="mermaid">') ||
-      node.value.startsWith('<pre class="mermaid">'))
+    isMermaidMarkup(node.value)
   );
+}
+
+/** @param {string} value */
+function isMermaidMarkup(value) {
+  return value.startsWith('<div class="mermaid"');
 }

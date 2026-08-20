@@ -80,8 +80,7 @@ function isDiagramHtml(node) {
   }
 
   return (
-    node.value.startsWith('<div class="mermaid">') ||
-    node.value.startsWith('<pre class="mermaid">') ||
+    node.value.startsWith('<div class="mermaid"') ||
     node.value.startsWith('<div class="diagram-row">')
   );
 }
