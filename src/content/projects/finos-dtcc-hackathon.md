@@ -1,7 +1,7 @@
 ---
 title: FINOS DTCC India AI Hackathon
 status: shipped
-order: 3
+order: 2
 award: 3rd Prize
 description: Agentic onboarding-to-invest workflow · 40+ organizations (CTRL+ALT+GEEKS, BNY).
 related:
