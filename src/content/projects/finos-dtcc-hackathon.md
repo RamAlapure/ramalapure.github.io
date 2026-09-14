@@ -48,7 +48,8 @@ flowchart TD
   Docs --> Acct[Account creation]
   Acct --> Port[AI portfolio]
   Port --> Broker[Zerodha MCP]
-  Broker --- Watch[Anomaly detection MCP]
+  Broker --> Trade[Broker investment]
+  Trade --> Watch[Anomaly detection MCP]
 ```
 
 **Webhook** — WhatsApp document events enter the workflow here. The orchestrator sees a structured intake, not a chat log that happens to contain a file.

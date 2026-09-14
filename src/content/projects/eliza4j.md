@@ -29,11 +29,11 @@ Eliza4J provides a unified backend that bridges two major Java AI frameworks —
 
 ```mermaid
 flowchart TD
-  SpringAI["Spring AI Path<br/>(Advisors, Tools, MCP)"] --> Unified["Unified Service<br/>(Chat, Embeddings, Vision, Speech)"]
-  LangChain["LangChain4j Path<br/>(Agent executor, AI services)"] --> Unified
-  Unified --> SPI["SPI Extensions<br/>(Observability, PII Masking)"]
-  SPI --> Infra["Infrastructure<br/>(Auth, Retry)"]
-  Infra --> Agents["Eliza AI Agents / LLMs"]
+  SpringAI[Spring AI Path: Advisors, Tools, MCP] --> Unified[Unified Service: Chat, Embeddings, Vision, Speech]
+  LangChain[LangChain4j Path: Agent executor, AI services] --> Unified
+  Unified --> SPI[SPI Extensions: Observability, PII Masking]
+  SPI --> Infra[Infrastructure: Auth, Retry]
+  Infra --> Agents[Eliza AI Agents/LLMs]
 ```
 
 A message conversion layer handles bidirectional translation between the two frameworks. Teams can use Spring AI for some features and LangChain4j for others in the same application.
