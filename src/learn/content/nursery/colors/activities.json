@@ -1,0 +1,135 @@
+{
+  "ageGroup": "nursery",
+  "activities": [
+    {
+      "id": "colors-find-red",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "red",
+      "instructionKey": "colors-find-red"
+    },
+    {
+      "id": "colors-find-blue",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "blue",
+      "instructionKey": "colors-find-blue"
+    },
+    {
+      "id": "colors-find-yellow",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "yellow",
+      "instructionKey": "colors-find-yellow"
+    },
+    {
+      "id": "colors-find-green",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "green",
+      "instructionKey": "colors-find-green"
+    },
+    {
+      "id": "colors-find-orange",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "orange",
+      "instructionKey": "colors-find-orange"
+    },
+    {
+      "id": "colors-find-purple",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "purple",
+      "instructionKey": "colors-find-purple"
+    },
+    {
+      "id": "colors-find-black",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "black",
+      "instructionKey": "colors-find-black"
+    },
+    {
+      "id": "colors-find-white",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "white",
+      "instructionKey": "colors-find-white"
+    },
+    {
+      "id": "colors-find-brown",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "target": "brown",
+      "instructionKey": "colors-find-brown"
+    },
+    {
+      "id": "colors-find-pink",
+      "type": "COLOR_SELECTION",
+      "subjectId": "colors",
+      "skill": "color-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "target": "pink",
+      "instructionKey": "colors-find-pink"
+    },
+    {
+      "id": "colors-mix-orange",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "colors",
+      "skill": "color-challenge",
+      "ageGroup": "nursery",
+      "difficulty": 4,
+      "options": [
+        { "id": "purple", "label": "Purple" },
+        { "id": "orange", "label": "Orange" },
+        { "id": "green", "label": "Green" }
+      ],
+      "answer": "orange",
+      "instructionKey": "colors-mix-orange"
+    },
+    {
+      "id": "colors-odd-one-out",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "colors",
+      "skill": "color-challenge",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "options": [
+        { "id": "red", "label": "Red" },
+        { "id": "yellow", "label": "Yellow" },
+        { "id": "purple", "label": "Purple" }
+      ],
+      "answer": "purple",
+      "instructionKey": "colors-odd-one-out"
+    }
+  ]
+}

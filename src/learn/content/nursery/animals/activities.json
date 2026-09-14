@@ -1,0 +1,464 @@
+{
+  "ageGroup": "nursery",
+  "activities": [
+    {
+      "id": "animals-pick-dog",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-dog-0",
+          "label": "Cat",
+          "image": "🐱"
+        },
+        {
+          "id": "wrong-dog-1",
+          "label": "Cow",
+          "image": "🐄"
+        },
+        {
+          "id": "dog",
+          "label": "Dog",
+          "image": "🐶"
+        }
+      ],
+      "answer": "dog",
+      "instructionKey": "animals-pick-dog"
+    },
+    {
+      "id": "animals-pick-cat",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-cat-1",
+          "label": "Rabbit",
+          "image": "🐰"
+        },
+        {
+          "id": "cat",
+          "label": "Cat",
+          "image": "🐱"
+        },
+        {
+          "id": "wrong-cat-0",
+          "label": "Dog",
+          "image": "🐶"
+        }
+      ],
+      "answer": "cat",
+      "instructionKey": "animals-pick-cat"
+    },
+    {
+      "id": "animals-pick-cow",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-cow-0",
+          "label": "Horse",
+          "image": "🐴"
+        },
+        {
+          "id": "wrong-cow-1",
+          "label": "Sheep",
+          "image": "🐑"
+        },
+        {
+          "id": "cow",
+          "label": "Cow",
+          "image": "🐄"
+        }
+      ],
+      "answer": "cow",
+      "instructionKey": "animals-pick-cow"
+    },
+    {
+      "id": "animals-pick-horse",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-horse-0",
+          "label": "Cow",
+          "image": "🐄"
+        },
+        {
+          "id": "wrong-horse-1",
+          "label": "Lion",
+          "image": "🦁"
+        },
+        {
+          "id": "horse",
+          "label": "Horse",
+          "image": "🐴"
+        }
+      ],
+      "answer": "horse",
+      "instructionKey": "animals-pick-horse"
+    },
+    {
+      "id": "animals-pick-lion",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "lion",
+          "label": "Lion",
+          "image": "🦁"
+        },
+        {
+          "id": "wrong-lion-0",
+          "label": "Tiger",
+          "image": "🐯"
+        },
+        {
+          "id": "wrong-lion-1",
+          "label": "Bear",
+          "image": "🐻"
+        }
+      ],
+      "answer": "lion",
+      "instructionKey": "animals-pick-lion"
+    },
+    {
+      "id": "animals-pick-tiger",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "tiger",
+          "label": "Tiger",
+          "image": "🐯"
+        },
+        {
+          "id": "wrong-tiger-0",
+          "label": "Lion",
+          "image": "🦁"
+        },
+        {
+          "id": "wrong-tiger-1",
+          "label": "Cat",
+          "image": "🐱"
+        }
+      ],
+      "answer": "tiger",
+      "instructionKey": "animals-pick-tiger"
+    },
+    {
+      "id": "animals-pick-elephant",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-elephant-1",
+          "label": "Hippo",
+          "image": "🦛"
+        },
+        {
+          "id": "elephant",
+          "label": "Elephant",
+          "image": "🐘"
+        },
+        {
+          "id": "wrong-elephant-0",
+          "label": "Giraffe",
+          "image": "🦒"
+        }
+      ],
+      "answer": "elephant",
+      "instructionKey": "animals-pick-elephant"
+    },
+    {
+      "id": "animals-pick-monkey",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-monkey-0",
+          "label": "Bear",
+          "image": "🐻"
+        },
+        {
+          "id": "monkey",
+          "label": "Monkey",
+          "image": "🐵"
+        },
+        {
+          "id": "wrong-monkey-1",
+          "label": "Rabbit",
+          "image": "🐰"
+        }
+      ],
+      "answer": "monkey",
+      "instructionKey": "animals-pick-monkey"
+    },
+    {
+      "id": "animals-pick-bird",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-bird-0",
+          "label": "Duck",
+          "image": "🦆"
+        },
+        {
+          "id": "wrong-bird-1",
+          "label": "Fish",
+          "image": "🐟"
+        },
+        {
+          "id": "bird",
+          "label": "Bird",
+          "image": "🐦"
+        }
+      ],
+      "answer": "bird",
+      "instructionKey": "animals-pick-bird"
+    },
+    {
+      "id": "animals-pick-fish",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "fish",
+          "label": "Fish",
+          "image": "🐟"
+        },
+        {
+          "id": "wrong-fish-1",
+          "label": "Frog",
+          "image": "🐸"
+        },
+        {
+          "id": "wrong-fish-0",
+          "label": "Bird",
+          "image": "🐦"
+        }
+      ],
+      "answer": "fish",
+      "instructionKey": "animals-pick-fish"
+    },
+    {
+      "id": "animals-pick-rabbit",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "rabbit",
+          "label": "Rabbit",
+          "image": "🐰"
+        },
+        {
+          "id": "wrong-rabbit-0",
+          "label": "Mouse",
+          "image": "🐭"
+        },
+        {
+          "id": "wrong-rabbit-1",
+          "label": "Cat",
+          "image": "🐱"
+        }
+      ],
+      "answer": "rabbit",
+      "instructionKey": "animals-pick-rabbit"
+    },
+    {
+      "id": "animals-sound-dog",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-sounds",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-sound-dog-1",
+          "label": "Cow",
+          "image": "🐄"
+        },
+        {
+          "id": "wrong-sound-dog-0",
+          "label": "Cat",
+          "image": "🐱"
+        },
+        {
+          "id": "dog",
+          "label": "Dog",
+          "image": "🐶"
+        }
+      ],
+      "answer": "dog",
+      "instructionKey": "animals-sound-dog"
+    },
+    {
+      "id": "animals-sound-cat",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-sounds",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "cat",
+          "label": "Cat",
+          "image": "🐱"
+        },
+        {
+          "id": "wrong-sound-cat-0",
+          "label": "Dog",
+          "image": "🐶"
+        },
+        {
+          "id": "wrong-sound-cat-1",
+          "label": "Rabbit",
+          "image": "🐰"
+        }
+      ],
+      "answer": "cat",
+      "instructionKey": "animals-sound-cat"
+    },
+    {
+      "id": "animals-sound-cow",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-sounds",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-sound-cow-0",
+          "label": "Horse",
+          "image": "🐴"
+        },
+        {
+          "id": "cow",
+          "label": "Cow",
+          "image": "🐄"
+        },
+        {
+          "id": "wrong-sound-cow-1",
+          "label": "Sheep",
+          "image": "🐑"
+        }
+      ],
+      "answer": "cow",
+      "instructionKey": "animals-sound-cow"
+    },
+    {
+      "id": "animals-sound-horse",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-sounds",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "horse",
+          "label": "Horse",
+          "image": "🐴"
+        },
+        {
+          "id": "wrong-sound-horse-1",
+          "label": "Lion",
+          "image": "🦁"
+        },
+        {
+          "id": "wrong-sound-horse-0",
+          "label": "Cow",
+          "image": "🐄"
+        }
+      ],
+      "answer": "horse",
+      "instructionKey": "animals-sound-horse"
+    },
+    {
+      "id": "animals-sound-lion",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-sounds",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-sound-lion-1",
+          "label": "Bear",
+          "image": "🐻"
+        },
+        {
+          "id": "wrong-sound-lion-0",
+          "label": "Tiger",
+          "image": "🐯"
+        },
+        {
+          "id": "lion",
+          "label": "Lion",
+          "image": "🦁"
+        }
+      ],
+      "answer": "lion",
+      "instructionKey": "animals-sound-lion"
+    },
+    {
+      "id": "animals-sound-tiger",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "animals",
+      "skill": "animal-sounds",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-sound-tiger-0",
+          "label": "Lion",
+          "image": "🦁"
+        },
+        {
+          "id": "tiger",
+          "label": "Tiger",
+          "image": "🐯"
+        },
+        {
+          "id": "wrong-sound-tiger-1",
+          "label": "Cat",
+          "image": "🐱"
+        }
+      ],
+      "answer": "tiger",
+      "instructionKey": "animals-sound-tiger"
+    }
+  ]
+}

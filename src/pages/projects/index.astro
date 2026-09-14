@@ -39,7 +39,14 @@ const lab = (await getCollection('projects'))
       <ul class="entry-list">
         {lab.map((project) => (
           <li>
-            <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
+            {project.slug === 'early-learning' ? (
+              <div class="entry-heading">
+                <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
+                <a class="playground-link" href="/learn/" target="_blank" rel="noopener noreferrer">Open playground ↗</a>
+              </div>
+            ) : (
+              <a href={`/projects/${project.slug}/`}>{project.data.title}</a>
+            )}
             <div class="entry-meta status-lab">{project.data.description}</div>
           </li>
         ))}

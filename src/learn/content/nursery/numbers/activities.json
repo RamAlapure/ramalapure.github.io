@@ -1,0 +1,145 @@
+{
+  "ageGroup": "nursery",
+  "activities": [
+    {
+      "id": "numbers-count-1",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🍎",
+      "count": 1,
+      "instructionKey": "numbers-count-1"
+    },
+    {
+      "id": "numbers-count-2",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "⭐",
+      "count": 2,
+      "instructionKey": "numbers-count-2"
+    },
+    {
+      "id": "numbers-count-3",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🐶",
+      "count": 3,
+      "instructionKey": "numbers-count-3"
+    },
+    {
+      "id": "numbers-count-4",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🌸",
+      "count": 4,
+      "instructionKey": "numbers-count-4"
+    },
+    {
+      "id": "numbers-count-5",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🚗",
+      "count": 5,
+      "instructionKey": "numbers-count-5"
+    },
+    {
+      "id": "numbers-count-6",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🎈",
+      "count": 6,
+      "instructionKey": "numbers-count-6"
+    },
+    {
+      "id": "numbers-count-7",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🐟",
+      "count": 7,
+      "instructionKey": "numbers-count-7"
+    },
+    {
+      "id": "numbers-count-8",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🍌",
+      "count": 8,
+      "instructionKey": "numbers-count-8"
+    },
+    {
+      "id": "numbers-count-9",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🦋",
+      "count": 9,
+      "instructionKey": "numbers-count-9"
+    },
+    {
+      "id": "numbers-count-10",
+      "type": "COUNTING",
+      "subjectId": "numbers",
+      "skill": "count-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "itemEmoji": "🧸",
+      "count": 10,
+      "instructionKey": "numbers-count-10"
+    },
+    {
+      "id": "numbers-next-after-5",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "numbers",
+      "skill": "number-sequence",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "options": [
+        { "id": "4", "label": "4" },
+        { "id": "6", "label": "6" },
+        { "id": "8", "label": "8" }
+      ],
+      "answer": "6",
+      "instructionKey": "numbers-next-after-5"
+    },
+    {
+      "id": "numbers-compare-more",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "numbers",
+      "skill": "compare-quantity",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "options": [
+        { "id": "few", "label": "2 apples", "image": "🍎🍎" },
+        { "id": "more", "label": "5 apples", "image": "🍎🍎🍎🍎🍎" },
+        { "id": "same", "label": "3 apples", "image": "🍎🍎🍎" }
+      ],
+      "answer": "more",
+      "instructionKey": "numbers-compare-more"
+    }
+  ]
+}

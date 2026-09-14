@@ -1,0 +1,110 @@
+{
+  "ageGroup": "nursery",
+  "activities": [
+    {
+      "id": "writing-line-horizontal",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-patterns",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "patternId": "line-horizontal",
+      "instructionKey": "writing-line-horizontal"
+    },
+    {
+      "id": "writing-line-vertical",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-patterns",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "patternId": "line-vertical",
+      "instructionKey": "writing-line-vertical"
+    },
+    {
+      "id": "writing-curve",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-patterns",
+      "ageGroup": "nursery",
+      "difficulty": 2,
+      "patternId": "curve",
+      "instructionKey": "writing-curve"
+    },
+    {
+      "id": "writing-zigzag",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-patterns",
+      "ageGroup": "nursery",
+      "difficulty": 2,
+      "patternId": "zigzag",
+      "instructionKey": "writing-zigzag"
+    },
+    {
+      "id": "writing-circle",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-shapes",
+      "ageGroup": "nursery",
+      "difficulty": 2,
+      "patternId": "circle",
+      "instructionKey": "writing-circle"
+    },
+    {
+      "id": "writing-triangle",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-shapes",
+      "ageGroup": "nursery",
+      "difficulty": 2,
+      "patternId": "shape-triangle",
+      "displayLabel": "△",
+      "instructionKey": "writing-triangle"
+    },
+    {
+      "id": "writing-letter-a",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-letters",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "patternId": "letter-a",
+      "displayLabel": "A",
+      "instructionKey": "writing-letter-a"
+    },
+    {
+      "id": "writing-letter-b",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-letters",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "patternId": "letter-b",
+      "displayLabel": "B",
+      "instructionKey": "writing-letter-b"
+    },
+    {
+      "id": "writing-number-1",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-numbers",
+      "ageGroup": "nursery",
+      "difficulty": 2,
+      "patternId": "number-1",
+      "displayLabel": "1",
+      "instructionKey": "writing-number-1"
+    },
+    {
+      "id": "writing-number-2",
+      "type": "TRACING",
+      "subjectId": "writing",
+      "skill": "tracing-numbers",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "patternId": "number-2",
+      "displayLabel": "2",
+      "instructionKey": "writing-number-2"
+    }
+  ]
+}

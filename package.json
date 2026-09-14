@@ -5,15 +5,26 @@
   "private": true,
   "scripts": {
     "dev": "astro dev",
-    "build": "node scripts/split-posts.mjs && astro build",
+    "build": "node scripts/split-posts.mjs && npm run validate-content && astro build",
     "preview": "astro preview",
-    "split-posts": "node scripts/split-posts.mjs"
+    "split-posts": "node scripts/split-posts.mjs",
+    "validate-content": "npx tsx scripts/validate-learn-content.mjs",
+    "export-content": "npx tsx scripts/export-learn-content.mjs",
+    "generate-learn-icons": "node scripts/generate-learn-icons.mjs",
+    "analyze-session": "node scripts/analyze-learn-session.mjs"
   },
   "dependencies": {
+    "@astrojs/react": "^6.0.5",
     "astro": "^5.7.10",
-    "mermaid": "11.6.0"
+    "mermaid": "11.6.0",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0"
   },
   "devDependencies": {
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vite-pwa/astro": "^1.2.0",
+    "sharp": "^0.35.4",
     "typescript": "^5.8.3"
   }
 }

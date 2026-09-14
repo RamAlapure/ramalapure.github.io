@@ -1,0 +1,299 @@
+{
+  "ageGroup": "nursery",
+  "activities": [
+    {
+      "id": "games-fruit-colors",
+      "type": "MATCHING",
+      "subjectId": "games",
+      "skill": "matching-pairs",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "pairs": [
+        {
+          "id": "apple",
+          "left": "🍎",
+          "right": "Red"
+        },
+        {
+          "id": "banana",
+          "left": "🍌",
+          "right": "Yellow"
+        },
+        {
+          "id": "grape",
+          "left": "🍇",
+          "right": "Purple"
+        }
+      ],
+      "instructionKey": "games-fruit-colors"
+    },
+    {
+      "id": "games-animal-homes",
+      "type": "MATCHING",
+      "subjectId": "games",
+      "skill": "matching-pairs",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "pairs": [
+        {
+          "id": "bird",
+          "left": "🐦",
+          "right": "Nest"
+        },
+        {
+          "id": "fish",
+          "left": "🐟",
+          "right": "Water"
+        },
+        {
+          "id": "dog",
+          "left": "🐶",
+          "right": "House"
+        }
+      ],
+      "instructionKey": "games-animal-homes"
+    },
+    {
+      "id": "games-toy-actions",
+      "type": "MATCHING",
+      "subjectId": "games",
+      "skill": "matching-pairs",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "pairs": [
+        {
+          "id": "ball",
+          "left": "⚽",
+          "right": "Kick"
+        },
+        {
+          "id": "blocks",
+          "left": "🧱",
+          "right": "Stack"
+        },
+        {
+          "id": "puzzle",
+          "left": "🧩",
+          "right": "Fit"
+        }
+      ],
+      "instructionKey": "games-toy-actions"
+    },
+    {
+      "id": "games-vehicle-go",
+      "type": "MATCHING",
+      "subjectId": "games",
+      "skill": "matching-pairs",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "pairs": [
+        {
+          "id": "car",
+          "left": "🚗",
+          "right": "Road"
+        },
+        {
+          "id": "train",
+          "left": "🚂",
+          "right": "Tracks"
+        },
+        {
+          "id": "boat",
+          "left": "⛵",
+          "right": "Water"
+        }
+      ],
+      "instructionKey": "games-vehicle-go"
+    },
+    {
+      "id": "games-body-use",
+      "type": "MATCHING",
+      "subjectId": "games",
+      "skill": "matching-pairs",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "pairs": [
+        {
+          "id": "eyes",
+          "left": "👀",
+          "right": "See"
+        },
+        {
+          "id": "ears",
+          "left": "👂",
+          "right": "Hear"
+        },
+        {
+          "id": "nose",
+          "left": "👃",
+          "right": "Smell"
+        }
+      ],
+      "instructionKey": "games-body-use"
+    },
+    {
+      "id": "games-family-roles",
+      "type": "MATCHING",
+      "subjectId": "games",
+      "skill": "matching-pairs",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "pairs": [
+        {
+          "id": "mom",
+          "left": "👩",
+          "right": "Mother"
+        },
+        {
+          "id": "dad",
+          "left": "👨",
+          "right": "Father"
+        },
+        {
+          "id": "baby",
+          "left": "👶",
+          "right": "Baby"
+        }
+      ],
+      "instructionKey": "games-family-roles"
+    },
+    {
+      "id": "games-food-apple",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "games",
+      "skill": "vocabulary-food",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "car",
+          "label": "Car",
+          "image": "🚗"
+        },
+        {
+          "id": "apple",
+          "label": "Apple",
+          "image": "🍎"
+        },
+        {
+          "id": "ball",
+          "label": "Ball",
+          "image": "⚽"
+        }
+      ],
+      "answer": "apple",
+      "instructionKey": "games-food-apple"
+    },
+    {
+      "id": "games-toy-bear",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "games",
+      "skill": "vocabulary-toys",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "bear",
+          "label": "Teddy bear",
+          "image": "🧸"
+        },
+        {
+          "id": "shoe",
+          "label": "Shoe",
+          "image": "👟"
+        },
+        {
+          "id": "book",
+          "label": "Book",
+          "image": "📚"
+        }
+      ],
+      "answer": "bear",
+      "instructionKey": "games-toy-bear"
+    },
+    {
+      "id": "games-vehicle-bus",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "games",
+      "skill": "vocabulary-vehicles",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "cup",
+          "label": "Cup",
+          "image": "☕"
+        },
+        {
+          "id": "tree",
+          "label": "Tree",
+          "image": "🌳"
+        },
+        {
+          "id": "bus",
+          "label": "Bus",
+          "image": "🚌"
+        }
+      ],
+      "answer": "bus",
+      "instructionKey": "games-vehicle-bus"
+    },
+    {
+      "id": "games-object-chair",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "games",
+      "skill": "vocabulary-objects",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "chair",
+          "label": "Chair",
+          "image": "🪑"
+        },
+        {
+          "id": "sun",
+          "label": "Sun",
+          "image": "☀️"
+        },
+        {
+          "id": "fish",
+          "label": "Fish",
+          "image": "🐟"
+        }
+      ],
+      "answer": "chair",
+      "instructionKey": "games-object-chair"
+    },
+    {
+      "id": "games-weather-match",
+      "type": "MATCHING",
+      "subjectId": "games",
+      "skill": "matching-pairs",
+      "ageGroup": "nursery",
+      "difficulty": 3,
+      "pairs": [
+        { "id": "sun", "left": "☀️", "right": "Sunny" },
+        { "id": "rain", "left": "🌧️", "right": "Rainy" },
+        { "id": "snow", "left": "❄️", "right": "Snowy" },
+        { "id": "wind", "left": "💨", "right": "Windy" }
+      ],
+      "instructionKey": "games-weather-match"
+    },
+    {
+      "id": "games-which-more-stars",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "games",
+      "skill": "compare-quantity",
+      "ageGroup": "nursery",
+      "difficulty": 4,
+      "options": [
+        { "id": "two", "label": "2 stars", "image": "⭐⭐" },
+        { "id": "five", "label": "5 stars", "image": "⭐⭐⭐⭐⭐" },
+        { "id": "three", "label": "3 stars", "image": "⭐⭐⭐" }
+      ],
+      "answer": "five",
+      "instructionKey": "games-which-more-stars"
+    }
+  ]
+}

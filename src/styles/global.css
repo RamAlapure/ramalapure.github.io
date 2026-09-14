@@ -280,12 +280,27 @@ h2 {
   padding: 0.65rem 0;
 }
 
-.entry-list a {
+.entry-list > li > a {
   color: var(--text);
   display: block;
 }
 
-.entry-list a:hover {
+.entry-list > li > a:hover {
+  color: var(--accent);
+}
+
+.entry-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35rem 0.85rem;
+}
+
+.entry-heading a {
+  color: var(--text);
+}
+
+.entry-heading a:hover {
   color: var(--accent);
 }
 
@@ -489,6 +504,20 @@ button:focus-visible {
 .status-shipped {
   color: var(--status-shipped);
 }
+
+.playground-cta {
+  margin: 1rem 0 1.5rem;
+}
+
+.playground-cta a {
+  font-weight: 600;
+}
+
+.playground-link {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
 @media (max-width: 600px) {
   .site-header-inner {
     flex-wrap: wrap;

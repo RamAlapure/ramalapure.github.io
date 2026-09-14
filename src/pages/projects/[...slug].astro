@@ -32,6 +32,13 @@ const relatedPosts = project.data.related
     </p>
     <h1>{project.data.title}</h1>
     {project.data.award && <p class="project-award">{project.data.award}</p>}
+    {project.slug === 'early-learning' && (
+      <p class="playground-cta">
+        <a href="/learn/" target="_blank" rel="noopener noreferrer">
+          Open Learning Playground ↗
+        </a>
+      </p>
+    )}
     <Content />
 
     {relatedPosts.length > 0 && (

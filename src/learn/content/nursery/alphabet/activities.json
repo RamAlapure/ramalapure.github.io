@@ -1,0 +1,515 @@
+{
+  "ageGroup": "nursery",
+  "activities": [
+    {
+      "id": "alphabet-letter-a",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "b",
+          "label": "B"
+        },
+        {
+          "id": "a",
+          "label": "A"
+        },
+        {
+          "id": "g",
+          "label": "G"
+        }
+      ],
+      "answer": "a",
+      "instructionKey": "alphabet-letter-a"
+    },
+    {
+      "id": "alphabet-letter-b",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "c",
+          "label": "C"
+        },
+        {
+          "id": "a",
+          "label": "A"
+        },
+        {
+          "id": "b",
+          "label": "B"
+        }
+      ],
+      "answer": "b",
+      "instructionKey": "alphabet-letter-b"
+    },
+    {
+      "id": "alphabet-letter-c",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "g",
+          "label": "G"
+        },
+        {
+          "id": "e",
+          "label": "E"
+        },
+        {
+          "id": "c",
+          "label": "C"
+        }
+      ],
+      "answer": "c",
+      "instructionKey": "alphabet-letter-c"
+    },
+    {
+      "id": "alphabet-letter-d",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "c",
+          "label": "C"
+        },
+        {
+          "id": "d",
+          "label": "D"
+        },
+        {
+          "id": "a",
+          "label": "A"
+        }
+      ],
+      "answer": "d",
+      "instructionKey": "alphabet-letter-d"
+    },
+    {
+      "id": "alphabet-letter-e",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "f",
+          "label": "F"
+        },
+        {
+          "id": "e",
+          "label": "E"
+        },
+        {
+          "id": "d",
+          "label": "D"
+        }
+      ],
+      "answer": "e",
+      "instructionKey": "alphabet-letter-e"
+    },
+    {
+      "id": "alphabet-letter-f",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "j",
+          "label": "J"
+        },
+        {
+          "id": "f",
+          "label": "F"
+        },
+        {
+          "id": "a",
+          "label": "A"
+        }
+      ],
+      "answer": "f",
+      "instructionKey": "alphabet-letter-f"
+    },
+    {
+      "id": "alphabet-letter-g",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "b",
+          "label": "B"
+        },
+        {
+          "id": "c",
+          "label": "C"
+        },
+        {
+          "id": "g",
+          "label": "G"
+        }
+      ],
+      "answer": "g",
+      "instructionKey": "alphabet-letter-g"
+    },
+    {
+      "id": "alphabet-letter-h",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "a",
+          "label": "A"
+        },
+        {
+          "id": "i",
+          "label": "I"
+        },
+        {
+          "id": "h",
+          "label": "H"
+        }
+      ],
+      "answer": "h",
+      "instructionKey": "alphabet-letter-h"
+    },
+    {
+      "id": "alphabet-letter-i",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "e",
+          "label": "E"
+        },
+        {
+          "id": "i",
+          "label": "I"
+        },
+        {
+          "id": "b",
+          "label": "B"
+        }
+      ],
+      "answer": "i",
+      "instructionKey": "alphabet-letter-i"
+    },
+    {
+      "id": "alphabet-letter-j",
+      "type": "MULTIPLE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "letter-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "j",
+          "label": "J"
+        },
+        {
+          "id": "b",
+          "label": "B"
+        },
+        {
+          "id": "h",
+          "label": "H"
+        }
+      ],
+      "answer": "j",
+      "instructionKey": "alphabet-letter-j"
+    },
+    {
+      "id": "alphabet-picture-a",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "correct",
+          "label": "Apple",
+          "image": "🍎"
+        },
+        {
+          "id": "wrong-1",
+          "label": "Cat",
+          "image": "🐱"
+        },
+        {
+          "id": "wrong-0",
+          "label": "Ball",
+          "image": "⚽"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-a"
+    },
+    {
+      "id": "alphabet-picture-b",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-1",
+          "label": "Dog",
+          "image": "🐶"
+        },
+        {
+          "id": "wrong-0",
+          "label": "Apple",
+          "image": "🍎"
+        },
+        {
+          "id": "correct",
+          "label": "Ball",
+          "image": "⚽"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-b"
+    },
+    {
+      "id": "alphabet-picture-c",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-0",
+          "label": "Cow",
+          "image": "🐄"
+        },
+        {
+          "id": "wrong-1",
+          "label": "Duck",
+          "image": "🦆"
+        },
+        {
+          "id": "correct",
+          "label": "Cat",
+          "image": "🐱"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-c"
+    },
+    {
+      "id": "alphabet-picture-d",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-1",
+          "label": "Fish",
+          "image": "🐟"
+        },
+        {
+          "id": "wrong-0",
+          "label": "Elephant",
+          "image": "🐘"
+        },
+        {
+          "id": "correct",
+          "label": "Duck",
+          "image": "🦆"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-d"
+    },
+    {
+      "id": "alphabet-picture-e",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-0",
+          "label": "Frog",
+          "image": "🐸"
+        },
+        {
+          "id": "wrong-1",
+          "label": "Grapes",
+          "image": "🍇"
+        },
+        {
+          "id": "correct",
+          "label": "Elephant",
+          "image": "🐘"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-e"
+    },
+    {
+      "id": "alphabet-picture-f",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "correct",
+          "label": "Frog",
+          "image": "🐸"
+        },
+        {
+          "id": "wrong-1",
+          "label": "House",
+          "image": "🏠"
+        },
+        {
+          "id": "wrong-0",
+          "label": "Giraffe",
+          "image": "🦒"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-f"
+    },
+    {
+      "id": "alphabet-picture-g",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-1",
+          "label": "Ball",
+          "image": "⚽"
+        },
+        {
+          "id": "correct",
+          "label": "Grapes",
+          "image": "🍇"
+        },
+        {
+          "id": "wrong-0",
+          "label": "Hat",
+          "image": "🎩"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-g"
+    },
+    {
+      "id": "alphabet-picture-h",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-0",
+          "label": "Ice cream",
+          "image": "🍦"
+        },
+        {
+          "id": "correct",
+          "label": "House",
+          "image": "🏠"
+        },
+        {
+          "id": "wrong-1",
+          "label": "Kite",
+          "image": "🪁"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-h"
+    },
+    {
+      "id": "alphabet-picture-i",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "correct",
+          "label": "Ice",
+          "image": "🧊"
+        },
+        {
+          "id": "wrong-1",
+          "label": "Lion",
+          "image": "🦁"
+        },
+        {
+          "id": "wrong-0",
+          "label": "Kite",
+          "image": "🪁"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-i"
+    },
+    {
+      "id": "alphabet-picture-j",
+      "type": "IMAGE_CHOICE",
+      "subjectId": "alphabet",
+      "skill": "picture-to-letter",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "options": [
+        {
+          "id": "wrong-0",
+          "label": "Kite",
+          "image": "🪁"
+        },
+        {
+          "id": "wrong-1",
+          "label": "Lion",
+          "image": "🦁"
+        },
+        {
+          "id": "correct",
+          "label": "Juice",
+          "image": "🧃"
+        }
+      ],
+      "answer": "correct",
+      "instructionKey": "alphabet-picture-j"
+    }
+  ]
+}

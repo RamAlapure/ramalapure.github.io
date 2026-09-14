@@ -1,0 +1,55 @@
+{
+  "ageGroup": "nursery",
+  "activities": [
+    {
+      "id": "shapes-find-circle",
+      "type": "SHAPE_SELECTION",
+      "subjectId": "shapes",
+      "skill": "shape-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "circle",
+      "instructionKey": "shapes-find-circle"
+    },
+    {
+      "id": "shapes-find-square",
+      "type": "SHAPE_SELECTION",
+      "subjectId": "shapes",
+      "skill": "shape-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "square",
+      "instructionKey": "shapes-find-square"
+    },
+    {
+      "id": "shapes-find-triangle",
+      "type": "SHAPE_SELECTION",
+      "subjectId": "shapes",
+      "skill": "shape-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "triangle",
+      "instructionKey": "shapes-find-triangle"
+    },
+    {
+      "id": "shapes-find-rectangle",
+      "type": "SHAPE_SELECTION",
+      "subjectId": "shapes",
+      "skill": "shape-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "rectangle",
+      "instructionKey": "shapes-find-rectangle"
+    },
+    {
+      "id": "shapes-find-oval",
+      "type": "SHAPE_SELECTION",
+      "subjectId": "shapes",
+      "skill": "shape-recognition",
+      "ageGroup": "nursery",
+      "difficulty": 1,
+      "target": "oval",
+      "instructionKey": "shapes-find-oval"
+    }
+  ]
+}

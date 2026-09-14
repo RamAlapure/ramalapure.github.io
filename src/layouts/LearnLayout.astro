@@ -1,0 +1,91 @@
+---
+import '../learn/styles/learn.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Learn',
+  description = 'Playful early-learning activities for nursery-age children.',
+} = Astro.props;
+
+const cfAnalyticsToken = import.meta.env.PUBLIC_CF_WEB_ANALYTICS_TOKEN;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <script is:inline>
+      (function () {
+        var pref = 'system';
+        try {
+          var stored = localStorage.getItem('theme');
+          if (stored === 'light' || stored === 'dark' || stored === 'system') pref = stored;
+        } catch (e) {}
+        var resolved =
+          pref === 'system'
+            ? window.matchMedia('(prefers-color-scheme: dark)').matches
+              ? 'dark'
+              : 'light'
+            : pref;
+        var root = document.documentElement;
+        root.dataset.theme = resolved;
+        root.dataset.themePref = pref;
+        root.style.colorScheme = resolved;
+      })();
+    </script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={description} />
+    <meta name="robots" content="noindex" />
+    <meta name="theme-color" content="#f7f8fa" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#0f1114" media="(prefers-color-scheme: dark)" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Learn" />
+    <title>{title}</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/learn/icon-192.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500;700&display=swap"
+    />
+    {
+      cfAnalyticsToken ? (
+        <script
+          type="module"
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon={JSON.stringify({ token: cfAnalyticsToken })}
+        />
+      ) : null
+    }
+  </head>
+  <body class="learn-body">
+    <slot />
+    <script>
+      import { THEME_CHANGE_EVENT } from '../scripts/theme';
+
+      function syncThemeColor(resolved: 'light' | 'dark') {
+        const color = resolved === 'light' ? '#f7f8fa' : '#0f1114';
+        document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+          meta.setAttribute('content', color);
+        });
+      }
+
+      syncThemeColor(
+        document.documentElement.dataset.theme === 'light' ? 'light' : 'dark',
+      );
+
+      document.addEventListener(THEME_CHANGE_EVENT, (event) => {
+        const resolved = event.detail?.resolved;
+        if (resolved === 'light' || resolved === 'dark') {
+          syncThemeColor(resolved);
+        }
+      });
+    </script>
+  </body>
+</html>

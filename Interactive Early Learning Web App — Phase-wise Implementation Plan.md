@@ -1,6 +1,6 @@
 # Interactive Early Learning Web App
 
-> A playful, interactive, privacy-first web learning platform for Nursery to early-KG children, initially built for my children and designed to eventually support other children.
+> A playful, interactive, privacy-first web learning platform for Nursery to early-KG children, initially built for my children and designed to eventually support other children. Ships at **`alapureram.com/learn/`** inside the existing Astro portfolio repo — promoted via Projects / Lab, not a separate app or host.
 
 ## 1. Product Vision
 
@@ -43,19 +43,26 @@ Build a **100% browser-based early-learning application** where children learn t
 
 # 3. Technology Strategy
 
-The application should remain completely frontend-based.
+The application should remain completely frontend-based. It ships **inside the existing [alapureram.com](https://alapureram.com) Astro site** — same repo, same build, same GitHub Pages deploy — not as a separate Vite project or separate host.
 
 ```text
                     Web Browser
                          │
                          ▼
               ┌─────────────────────┐
-              │ React + TypeScript  │
+              │  Astro (static)     │  ← portfolio shell, SEO, deploy
+              │  alapureram.com     │
+              └──────────┬──────────┘
+                         │
+                         ▼
+              ┌─────────────────────┐
+              │  /learn/ route      │  ← early-learning app entry
+              │  React + TypeScript │
               │                     │
-              │ UI / Activities     │
-              │ Learning Engine     │
-              │ Progress Engine     │
-              │ Curriculum Engine  │
+              │  UI / Activities    │
+              │  Learning Engine    │
+              │  Progress Engine    │
+              │  Curriculum Engine  │
               └──────────┬──────────┘
                          │
           ┌──────────────┼──────────────┐
@@ -72,21 +79,63 @@ The application should remain completely frontend-based.
 
 | Component | Technology |
 |---|---|
-| UI | React |
-| Language | TypeScript |
-| Build | Vite |
-| Styling | CSS / Tailwind |
+| Site shell | Astro 5 (existing `ramalapure.github.io` repo) |
+| App route | `/learn/` (mini-SPA under Astro) |
+| Interactive UI | React via `@astrojs/react` |
+| Language | TypeScript (already in repo) |
+| Build | Astro build (Vite under the hood — no second toolchain) |
+| Styling | Child-friendly CSS tokens under `/learn/`; portfolio `global.css` unchanged |
 | State | React state / lightweight store |
 | Persistence | localStorage initially |
 | Larger local data | IndexedDB later |
 | Drawing | HTML Canvas |
 | Audio | HTML5 Audio / Web Audio API |
 | Voice instructions | Pre-recorded audio initially |
-| Hosting | GitHub Pages / static hosting |
+| Hosting | GitHub Pages via existing deploy workflow |
 | Backend | None |
 | Database | None |
 | LLM | None |
 | Authentication | None initially |
+
+## Same-site integration (alapureram.com)
+
+The learning app and the portfolio share one static site:
+
+```text
+alapureram.com/                 ← existing Astro portfolio (unchanged)
+alapureram.com/learn/           ← early-learning app (React)
+alapureram.com/projects/...     ← promote as a Lab project page
+```
+
+**Promotion, not nav merge.** The portfolio nav stays frozen (Writing · Projects · About). Surface the app through a **Projects / Lab** case study and links to `/learn/` — same pattern as OpenLifeOps, except the learning app runs on the same static host (no separate subdomain required for V1).
+
+**Isolation.** `/learn/` uses its own layout (minimal chrome, child-first UI) and does not inherit portfolio navigation or theme tokens. The homepage and flagship case studies stay untouched.
+
+## What stays stack-agnostic
+
+These plan sections do **not** depend on a standalone React repo:
+
+- Activity types and renderer-per-type engine (Phase 2)
+- `Activity` / curriculum JSON model
+- Progress in localStorage → IndexedDB (Phases 5, 12)
+- PWA / offline (Phases 12–13) — via Vite PWA plugin in the Astro build
+- Deterministic adaptive rules (Phase 6) — no LLM
+- Content folders (`content/nursery/alphabet/…`)
+- Multi-language keys (Phase 11)
+
+## What requires a client UI framework
+
+Drag-drop, memory games, tracing, multi-screen routing, and the activity engine need a SPA-style layer. **React inside Astro** is the right choice; pure Astro pages or vanilla TS alone will not scale past a toy prototype.
+
+## When a separate app would be needed (defer)
+
+Only consider a standalone Vite + React repo or subdomain (e.g. `learn.alapureram.com`) if:
+
+- Release cadence must diverge from the portfolio site
+- The app outgrows a single Astro build artifact
+- A dedicated team or product boundary appears
+
+None of these apply to V0.1.
 
 ---
 
@@ -177,7 +226,8 @@ LISTEN_AND_SELECT
 
 - V1 curriculum defined
 - Activity types defined
-- Technical architecture documented
+- Technical architecture documented (Astro + React on `/learn/`, same GitHub Pages deploy)
+- Same-site promotion path agreed (Lab project page, no main-nav change)
 - Initial UI wireframes ready
 - Data model finalized
 
@@ -191,15 +241,17 @@ Create the basic application shell.
 
 ### Features
 
-- React + TypeScript + Vite project
+- `/learn/` route in the existing Astro repo (`@astrojs/react` integration)
+- React + TypeScript app shell (no separate Vite project)
+- Dedicated `/learn/` layout — child-first, no portfolio nav
 - Responsive layout
-- Child-friendly design system
+- Child-friendly design system (separate from portfolio styles)
 - Home screen
-- Navigation
-- Subject selection
+- In-app navigation (subject selection, activity flow)
 - Basic activity screen
 - Results screen
 - Local storage abstraction
+- Lab project page under `/projects/` linking to `/learn/`
 
 ### Initial screens
 
@@ -226,17 +278,24 @@ Parent
 
 ```text
 src/
-├── app/
-├── components/
-├── activities/
-├── curriculum/
-├── learning/
-├── progress/
-├── rewards/
-├── audio/
-├── storage/
 ├── pages/
-└── assets/
+│   └── learn/
+│       └── [...slug].astro          # Astro shell → mounts React app
+├── learn/                            # React app (activity engine lives here)
+│   ├── app/
+│   ├── components/
+│   ├── activities/
+│   ├── curriculum/
+│   ├── learning/
+│   ├── progress/
+│   ├── rewards/
+│   ├── audio/
+│   └── storage/
+├── content/
+│   └── projects/
+│       └── early-learning.md        # Lab promotion page
+└── public/
+    └── learn/                        # static assets (images, audio)
 ```
 
 ### Exit criteria
@@ -948,9 +1007,19 @@ Offline Learning
 
 This is especially valuable for tablets and unreliable connections.
 
+### Status: ✅ Complete (2026-09-14)
+
+- `@vite-pwa/astro` with service worker, precache, and `/learn/` scoped manifest
+- Offline banner + install hint UI
+- Progress remains in `localStorage` offline
+
 ---
 
 # Phase 13 — Installable PWA
+
+> **Status: 🔮 Future scope — not implementing now.**
+>
+> Phase 12 already delivers the essentials (manifest, icons, standalone display, offline). Remaining installable-app polish (custom splash screen, refined home-screen flow) is deferred until after child testing and V1.
 
 ## Goal
 
@@ -1007,6 +1076,49 @@ For a young-child product:
 > **Watching a child use the application is more valuable than looking at a dashboard.**
 
 Iterate based on actual behavior.
+
+### Status: 🔄 In progress (2026-09-14)
+
+**Testers**
+
+| Child | Age | Class | Fit |
+|-------|-----|-------|-----|
+| Atharv | 4 | Jr. KG | Primary target (nursery curriculum) |
+| Anvi | 6 | Class 1 | Above nursery level — useful for “too easy?” signal |
+
+**How to export session data**
+
+On `/learn/`, open DevTools → Console:
+
+```js
+copy(localStorage.getItem('learn-store-v2'))
+```
+
+Save to `learn-session-export.json` (repo root, gitignored), then:
+
+```bash
+npm run analyze-session
+```
+
+**Observations from build + prior sessions** (to validate against export)
+
+| Area | Atharv (4) | Anvi (6) | Improvise |
+|------|------------|----------|-----------|
+| Session length (6 activities) | Likely long — watch for drop-off after activity 3–4 | May finish quickly | Shorten default round to 4 for nursery; optional “longer round” in parent settings |
+| Writing / tracing | Letter B falsely marked wrong (fixed); tracing needs largest touch targets | Easier | Keep tracing hints visual; add “show me” demo stroke before free trace |
+| Parent PIN | Blank screen after PIN (fixed) | — | — |
+| Audio (TTS) | Language now follows setting | — | Localize option labels in JSON; auto-play instruction on activity start |
+| Subject pickers | Emoji + label — verify 4yo reads vs taps by picture | May want reading challenges | Add optional picture-only mode for youngest |
+| Rewards | Stars/points — observe if Atharv cares by activity 6 | May find nursery rewards shallow | Celebrate mid-round (after 3rd activity), not only at end |
+| Difficulty | Nursery default | Likely too easy on alphabet/numbers | Use Anvi sessions to flag skills at 90%+ mastery → skip or harder variants |
+| Engagement | Watch which subjects they reopen unprompted | Compare `bySubject` counts in export | Double content in top 2 subjects; simplify or split bottom 2 |
+
+**Exit criteria**
+
+- [ ] Export analyzed for both children (separate profiles or noted sessions)
+- [ ] Top 3 friction points documented from watching (not only dashboard)
+- [ ] At least one curriculum/UI change shipped per friction point
+- [ ] Re-test with children after changes
 
 ---
 
@@ -1458,9 +1570,11 @@ The immediate implementation target should be:
 ### Scope
 
 ```text
-React + TypeScript + Vite
+Astro site (existing ramalapure.github.io repo)
         +
-Child-friendly UI
+/learn/ route + @astrojs/react
+        +
+Child-friendly UI (isolated from portfolio)
         +
 Activity Engine
         +
@@ -1475,6 +1589,8 @@ Stars / Rewards
 Local Progress
         +
 Parent Mode
+        +
+Lab project page → /learn/
 ```
 
 ### Explicitly out of scope
