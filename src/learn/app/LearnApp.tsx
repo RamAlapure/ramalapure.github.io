@@ -319,15 +319,19 @@ export default function LearnApp() {
               resetSessionState();
               const next = switchChildProfile(profileId);
               setStore(next);
-              setParentUnlocked(false);
-              setScreen(profileNeedsName(next.profile?.name) ? 'welcome' : 'home');
+              if (profileNeedsName(next.profile?.name)) {
+                setParentUnlocked(false);
+                setScreen('welcome');
+              }
             }}
             onAddProfile={(name, ageGroup, avatar) => {
               resetSessionState();
               const next = addChildProfile(name, ageGroup, avatar);
               setStore(next);
-              setParentUnlocked(false);
-              setScreen(profileNeedsName(next.profile?.name) ? 'welcome' : 'home');
+              if (profileNeedsName(next.profile?.name)) {
+                setParentUnlocked(false);
+                setScreen('welcome');
+              }
             }}
             onDeleteProfile={(profileId) => {
               resetSessionState();
