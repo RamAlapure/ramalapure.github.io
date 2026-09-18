@@ -1,0 +1,775 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Learn · Playground — UX mockups (child view & parent view)</title>
+<style>
+  :root {
+    --bg: #eef1f5;
+    --surface: #ffffff;
+    --surface-2: #f7f8fa;
+    --accent: #1a6a94;
+    --accent-soft: #e8f2f8;
+    --accent-hover: #d4e8f4;
+    --success: #217a4c;
+    --success-soft: #e6f6ee;
+    --warn: #b45309;
+    --warn-soft: #fff7ed;
+    --danger: #c45a42;
+    --danger-soft: #fdeee9;
+    --text: #1c1f24;
+    --muted: #5c6570;
+    --border: #d5dbe2;
+    --shadow: 0 8px 24px rgba(28, 31, 36, 0.08);
+    --radius: 18px;
+  }
+  html[data-theme='dark'] {
+    --bg: #0b0d10;
+    --surface: #171a21;
+    --surface-2: #11141a;
+    --accent: #7eb8da;
+    --accent-soft: #1e2834;
+    --accent-hover: #2a3d4f;
+    --success: #6bbf8a;
+    --success-soft: #1a2e24;
+    --warn: #fbbf24;
+    --warn-soft: #2a2418;
+    --danger: #e07a5f;
+    --danger-soft: #3a221c;
+    --text: #e8eaed;
+    --muted: #9aa3ad;
+    --border: #2a3038;
+    --shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.5;
+  }
+  .page { max-width: 1280px; margin: 0 auto; padding: 32px 20px 80px; }
+  header.top { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; justify-content: space-between; margin-bottom: 8px; }
+  h1 { font-size: 1.7rem; margin: 0; }
+  .lede { color: var(--muted); max-width: 62ch; margin: 6px 0 0; }
+  .toolbar { display: flex; gap: 8px; }
+  .toolbar button {
+    font: inherit; padding: 8px 14px; border-radius: 999px; cursor: pointer;
+    border: 1px solid var(--border); background: var(--surface); color: var(--text);
+  }
+  .toolbar button.is-active { background: var(--accent); color: #fff; border-color: var(--accent); }
+  html[data-theme='dark'] .toolbar button.is-active { color: #0f1114; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 10px; margin: 22px 0 10px; }
+  .pill { font-size: .78rem; padding: 4px 11px; border-radius: 999px; border: 1px solid var(--border); background: var(--surface); color: var(--muted); }
+  .pill.read { background: var(--accent-soft); color: var(--accent); border-color: transparent; font-weight: 600; }
+  .pill.write { background: var(--warn-soft); color: var(--warn); border-color: transparent; font-weight: 600; }
+  .pill.child { background: var(--success-soft); color: var(--success); border-color: transparent; font-weight: 600; }
+
+  h2.section { font-size: 1.15rem; margin: 40px 0 4px; }
+  .section-note { color: var(--muted); margin: 0 0 18px; max-width: 70ch; font-size: .92rem; }
+
+  .frames { display: flex; flex-wrap: wrap; gap: 26px; align-items: flex-start; }
+  .frame { width: 360px; }
+  .frame > figcaption { font-size: .82rem; color: var(--muted); margin-top: 10px; text-align: center; }
+  .device {
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: 26px;
+    box-shadow: var(--shadow);
+    overflow: hidden;
+    height: 720px;
+    display: flex;
+    flex-direction: column;
+  }
+  .device.tall { height: 860px; }
+  .screen { flex: 1; overflow: auto; padding: 14px; scrollbar-width: thin; }
+  .statusbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 16px; font-size: .72rem; color: var(--muted);
+    border-bottom: 1px solid var(--border); background: var(--surface);
+  }
+
+  /* generic UI atoms */
+  .card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); padding: 14px; }
+  .card + .card { margin-top: 12px; }
+  .muted { color: var(--muted); }
+  .tiny { font-size: .75rem; }
+  .small { font-size: .84rem; }
+  .row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  .btn {
+    font: inherit; border: none; border-radius: 12px; padding: 10px 16px; cursor: pointer;
+    background: var(--accent); color: #fff; font-weight: 600;
+  }
+  html[data-theme='dark'] .btn { color: #0f1114; }
+  .btn.secondary { background: var(--surface); color: var(--text); border: 1px solid var(--border); }
+  .btn.danger { background: var(--danger); color: #fff; }
+  .btn.mini { padding: 6px 11px; font-size: .8rem; border-radius: 9px; }
+  .btn.block { width: 100%; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; padding: 5px 11px; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); font-size: .82rem; }
+  .chip.is-active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 600; }
+  html[data-theme='dark'] .chip.is-active { color: #0f1114; }
+  .field { display: block; margin-top: 10px; }
+  .field > span { display: block; font-size: .78rem; color: var(--muted); margin-bottom: 4px; }
+  .field input, .field select {
+    font: inherit; width: 100%; padding: 9px 11px; border-radius: 11px;
+    border: 1px solid var(--border); background: var(--surface-2); color: var(--text);
+  }
+  .switchrow { display: flex; justify-content: space-between; align-items: center; padding: 9px 0; border-bottom: 1px dashed var(--border); }
+  .switchrow:last-child { border-bottom: none; }
+  .switch { width: 42px; height: 24px; border-radius: 999px; background: var(--border); position: relative; flex: none; cursor: pointer; }
+  .switch::after { content: ''; position: absolute; top: 3px; left: 3px; width: 18px; height: 18px; border-radius: 50%; background: var(--surface); transition: left .15s; }
+  .switch.on { background: var(--accent); }
+  .switch.on::after { left: 21px; }
+  .annot {
+    font-size: .72rem; border-left: 3px solid var(--accent); background: var(--accent-soft);
+    color: var(--accent); padding: 7px 10px; border-radius: 0 10px 10px 0; margin: 10px 0;
+  }
+  .annot.write { border-left-color: var(--warn); background: var(--warn-soft); color: var(--warn); }
+
+  /* child view */
+  .child-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+  .child-hi { display: flex; align-items: center; gap: 10px; font-size: 1.35rem; font-weight: 700; }
+  .child-hi .av { font-size: 2rem; }
+  .gear { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--border); background: var(--surface); font-size: 1rem; cursor: pointer; }
+  .goal { display: flex; gap: 14px; align-items: center; }
+  .ring { width: 92px; height: 92px; flex: none; }
+  .ring circle { fill: none; stroke-width: 11; stroke-linecap: round; }
+  .ring .track { stroke: var(--border); }
+  .ring .fill { stroke: var(--success); transform: rotate(-90deg); transform-origin: 50% 50%; }
+  .ring text { font-size: 19px; font-weight: 700; fill: var(--text); }
+  .continue {
+    display: flex; align-items: center; gap: 12px; background: var(--accent-soft);
+    border: 2px solid var(--accent); border-radius: var(--radius); padding: 14px; cursor: pointer;
+    width: 100%; text-align: left; font: inherit; color: var(--text); margin-bottom: 12px;
+  }
+  .continue .em { font-size: 2.1rem; }
+  .subject-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .subject {
+    background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+    padding: 14px 12px; text-align: center; cursor: pointer; font: inherit; color: var(--text); position: relative;
+  }
+  .subject .em { font-size: 2.2rem; display: block; }
+  .subject .nm { font-weight: 700; margin-top: 4px; display: block; }
+  .subject.suggest { border-color: var(--success); box-shadow: 0 0 0 4px var(--success-soft); }
+  .subject .tag {
+    position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+    background: var(--success); color: #fff; font-size: .66rem; padding: 2px 9px; border-radius: 999px; white-space: nowrap;
+  }
+  .dots { display: flex; gap: 3px; justify-content: center; margin-top: 7px; }
+  .dots i { width: 8px; height: 8px; border-radius: 50%; background: var(--border); display: block; }
+  .dots i.on { background: var(--warn); }
+  .stars-big { font-size: 1.5rem; letter-spacing: 2px; }
+  .progressbar { height: 9px; border-radius: 999px; background: var(--border); overflow: hidden; }
+  .progressbar > i { display: block; height: 100%; background: var(--accent); }
+  .choices { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .choice { padding: 22px 8px; border-radius: 14px; border: 2px solid var(--border); background: var(--surface); font-size: 1.6rem; font-weight: 700; cursor: pointer; color: var(--text); }
+  .sessiondots { display: flex; gap: 7px; justify-content: center; margin: 10px 0; }
+  .sessiondots i { width: 12px; height: 12px; border-radius: 50%; background: var(--border); }
+  .sessiondots i.on { background: var(--accent); }
+
+  /* parent hub */
+  .hub-head { background: var(--surface); border-bottom: 1px solid var(--border); padding: 12px 14px; }
+  .tabs { display: flex; gap: 6px; background: var(--surface-2); padding: 4px; border-radius: 12px; margin-top: 10px; }
+  .tabs button {
+    flex: 1; font: inherit; font-weight: 600; padding: 9px 6px; border-radius: 9px; border: none;
+    background: transparent; color: var(--muted); cursor: pointer; font-size: .9rem;
+  }
+  .tabs button.is-active { background: var(--surface); color: var(--text); box-shadow: var(--shadow); }
+  .subtabs { display: flex; gap: 6px; margin: 2px 0 12px; overflow-x: auto; }
+  .subtabs button {
+    font: inherit; font-size: .82rem; padding: 6px 12px; border-radius: 999px; white-space: nowrap;
+    border: 1px solid var(--border); background: var(--surface); color: var(--muted); cursor: pointer;
+  }
+  .subtabs button.is-active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  html[data-theme='dark'] .subtabs button.is-active { color: #0f1114; }
+  .kpis { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .kpi { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 11px 12px; }
+  .kpi .v { font-size: 1.45rem; font-weight: 700; line-height: 1.1; }
+  .kpi .l { font-size: .74rem; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; }
+  .kpi .d { font-size: .74rem; font-weight: 600; }
+  .up { color: var(--success); }
+  .down { color: var(--danger); }
+  .chart { display: flex; align-items: flex-end; gap: 8px; height: 120px; margin-top: 8px; }
+  .chart .col { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 5px; height: 100%; justify-content: flex-end; }
+  .chart .bar { width: 100%; background: var(--accent); border-radius: 6px 6px 0 0; min-height: 4px; }
+  .chart .lbl { font-size: .68rem; color: var(--muted); }
+  .tbl { width: 100%; border-collapse: collapse; font-size: .83rem; }
+  .tbl th { text-align: left; font-size: .7rem; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); padding-bottom: 6px; font-weight: 600; }
+  .tbl td { padding: 7px 0; border-top: 1px solid var(--border); }
+  .tbl td:last-child, .tbl th:last-child { text-align: right; }
+  .skill { margin-top: 12px; }
+  .skill .row { margin-bottom: 4px; }
+  .badge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin-top: 8px; }
+  .badge { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 10px 4px; text-align: center; font-size: .72rem; }
+  .badge.locked { opacity: .38; }
+  .badge .em { font-size: 1.5rem; display: block; }
+  .learner-card { display: flex; gap: 11px; align-items: center; }
+  .learner-card .av { font-size: 2rem; }
+  .danger-zone { border-color: var(--danger); background: var(--danger-soft); }
+  .flow { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font-size: .8rem; color: var(--muted); }
+  .flow b { color: var(--text); background: var(--surface); border: 1px solid var(--border); padding: 4px 10px; border-radius: 999px; font-weight: 600; }
+  ul.spec { margin: 8px 0 0; padding-left: 18px; color: var(--muted); font-size: .88rem; }
+  ul.spec li { margin-bottom: 5px; }
+  ul.spec b { color: var(--text); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header class="top">
+    <div>
+      <h1>Learn · Playground — UX mockups</h1>
+      <p class="lede">Proposed child view and parent view for <code>/learn/</code>. The parent view splits into
+        <strong>Insights</strong> (read-only analytics) and <strong>Manage</strong> (all operations). Frames are interactive —
+        click tabs, sub-tabs and learner chips.</p>
+    </div>
+    <div class="toolbar">
+      <button id="themeBtn" type="button">Dark theme</button>
+    </div>
+  </header>
+
+  <div class="legend">
+    <span class="pill child">Child surface — no text-critical path, ≥64px targets</span>
+    <span class="pill read">Read-only — never mutates state</span>
+    <span class="pill write">Write — explicit save, toast confirmation</span>
+  </div>
+
+  <h2 class="section">1 · Child view</h2>
+  <p class="section-note">Changes vs. today: adult controls (language, theme, PIN) collapse into a single ⚙︎ button; a daily-goal
+    ring and a “keep going” card replace the cold 7-card start; subject cards show mastery dots instead of activity counts; the
+    adaptive engine surfaces as one highlighted “try this next” card.</p>
+
+  <div class="frames">
+    <figure class="frame">
+      <div class="device">
+        <div class="statusbar"><span>learn · play</span><span>9:41</span></div>
+        <div class="screen">
+          <div class="child-header">
+            <div class="child-hi"><span class="av">👦</span> Hi, Aarav!</div>
+            <button class="gear" type="button" title="Parent hub (PIN)">⚙︎</button>
+          </div>
+
+          <div class="card goal">
+            <svg class="ring" viewBox="0 0 100 100" role="img" aria-label="8 of 12 activities today">
+              <circle class="track" cx="50" cy="50" r="40"></circle>
+              <circle class="fill" cx="50" cy="50" r="40" stroke-dasharray="251" stroke-dashoffset="84"></circle>
+              <text x="50" y="57" text-anchor="middle">8/12</text>
+            </svg>
+            <div>
+              <strong>Today's goal</strong>
+              <p class="small muted" style="margin:2px 0 6px">4 more activities to fill the ring</p>
+              <span class="stars-big">⭐⭐⭐☆☆</span>
+            </div>
+          </div>
+
+          <div class="annot">Replaces the raw “⭐ 0 🏆 0” chips — a pre-reader can read a ring, not a counter.</div>
+
+          <button class="continue" type="button">
+            <span class="em">🔤</span>
+            <span>
+              <strong>Keep going</strong><br />
+              <span class="small muted">Alphabet · round 3 of today</span>
+            </span>
+          </button>
+
+          <div class="subject-grid">
+            <button class="subject suggest" type="button">
+              <span class="tag">Try this next</span>
+              <span class="em">🔢</span><span class="nm">Numbers</span>
+              <span class="dots"><i class="on"></i><i class="on"></i><i></i><i></i><i></i></span>
+            </button>
+            <button class="subject" type="button"><span class="em">🔤</span><span class="nm">Alphabet</span>
+              <span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i class="on"></i><i></i></span></button>
+            <button class="subject" type="button"><span class="em">🎨</span><span class="nm">Colors</span>
+              <span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></button>
+            <button class="subject" type="button"><span class="em">🔷</span><span class="nm">Shapes</span>
+              <span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></button>
+            <button class="subject" type="button"><span class="em">🐾</span><span class="nm">Animals</span>
+              <span class="dots"><i class="on"></i><i class="on"></i><i class="on"></i><i></i><i></i></span></button>
+            <button class="subject" type="button"><span class="em">✏️</span><span class="nm">Writing</span>
+              <span class="dots"><i class="on"></i><i></i><i></i><i></i><i></i></span></button>
+          </div>
+          <div class="annot">Mastery dots replace “20 activities”. Subjects switched off in Manage → Learning setup simply don't render.</div>
+        </div>
+      </div>
+      <figcaption>Play Home — goal ring, resume card, adaptive suggestion</figcaption>
+    </figure>
+
+    <figure class="frame">
+      <div class="device">
+        <div class="statusbar"><span>Numbers · 2 of 4</span><span>9:43</span></div>
+        <div class="screen">
+          <div class="row">
+            <strong>🔢 Numbers</strong>
+            <button class="btn secondary mini" type="button">✕</button>
+          </div>
+          <div class="sessiondots"><i class="on"></i><i class="on"></i><i></i><i></i></div>
+          <div class="row" style="justify-content:center; gap:8px; margin-bottom:6px">
+            <span class="chip">🔊 Hear again</span><span class="chip">🐢 Slower</span>
+          </div>
+
+          <div class="card" style="text-align:center">
+            <p style="font-size:1.15rem; font-weight:600; margin:4px 0 12px">How many apples?</p>
+            <div style="font-size:2.3rem; letter-spacing:6px">🍎🍎🍎</div>
+            <div class="choices">
+              <button class="choice" type="button">2</button>
+              <button class="choice" type="button" style="border-color:var(--success); background:var(--success-soft)">3</button>
+              <button class="choice" type="button">4</button>
+              <button class="choice" type="button">5</button>
+            </div>
+          </div>
+
+          <div class="card" style="background:var(--success-soft); border-color:var(--success); text-align:center">
+            <strong style="color:var(--success)">🎉 Yes! Three apples.</strong>
+            <p class="small muted" style="margin:4px 0 0">+10 points · streak 2 🔥</p>
+          </div>
+
+          <div class="annot">Unchanged from today apart from session resume: a reload restores
+            <code>{subjectId, index, answers}</code> instead of dropping the round.</div>
+        </div>
+      </div>
+      <figcaption>Activity — existing engine, plus resume-on-reload</figcaption>
+    </figure>
+
+    <figure class="frame">
+      <div class="device">
+        <div class="statusbar"><span>round complete</span><span>9:45</span></div>
+        <div class="screen" style="display:flex; flex-direction:column; justify-content:center; text-align:center; gap:14px">
+          <div>
+            <div style="font-size:3rem">🎉</div>
+            <h2 style="margin:4px 0">Great job!</h2>
+            <p class="muted small" style="margin:0">🔢 You finished Numbers</p>
+          </div>
+          <div class="stars-big" style="font-size:2.6rem">⭐⭐⭐</div>
+          <p style="font-size:1.1rem; margin:0"><strong>4 of 4 correct</strong></p>
+          <div class="card">
+            <div class="row small"><span>Next badge: Number Ninja</span><span>3 ⭐ to go</span></div>
+            <div class="progressbar" style="margin-top:7px"><i style="width:70%"></i></div>
+          </div>
+          <div class="card" style="text-align:left">
+            <p class="tiny muted" style="margin:0">Next round will practise <strong>counting to 10</strong> — picked because
+              that skill is at 55% mastery.</p>
+          </div>
+          <button class="btn block" type="button">▶ Play again</button>
+          <button class="btn secondary block" type="button">🏠 Home</button>
+          <div class="annot">Point totals move to the parent view; the child sees progress-to-next-reward instead.</div>
+        </div>
+      </div>
+      <figcaption>Celebrate — reward progress, adaptive reason in plain words</figcaption>
+    </figure>
+  </div>
+
+  <h2 class="section">2 · Parent view — Insights (read-only analytics)</h2>
+  <p class="section-note">One persistent header: learner chips + date range, scoping every panel. Switching learners here keeps the
+    PIN session (today it silently logs the parent out and jumps to the child home). Nothing in this tab writes state — the single
+    exception is <em>Practice now</em>, which deliberately hands the device back to the child.</p>
+
+  <div class="frames">
+    <figure class="frame">
+      <div class="device tall">
+        <div class="statusbar"><span>🔒 Parent hub</span><span>Insights</span></div>
+        <div class="hub-head">
+          <div class="row">
+            <strong>Parent hub</strong>
+            <button class="btn secondary mini" type="button">Exit</button>
+          </div>
+          <div style="display:flex; gap:6px; margin-top:9px; overflow-x:auto">
+            <span class="chip is-active">👦 Aarav</span><span class="chip">👧 Meera</span><span class="chip">＋</span>
+          </div>
+          <div class="tabs" role="tablist">
+            <button class="is-active" type="button">📊 Insights</button>
+            <button type="button">⚙︎ Manage</button>
+          </div>
+        </div>
+        <div class="screen" data-panelgroup="insights">
+          <div class="subtabs">
+            <button class="is-active" data-panel="ov" type="button">Overview</button>
+            <button data-panel="pg" type="button">Progress</button>
+            <button data-panel="fc" type="button">Focus</button>
+          </div>
+          <div style="display:flex; gap:6px; margin-bottom:12px">
+            <span class="chip">Today</span><span class="chip is-active">7 days</span><span class="chip">30 days</span><span class="chip">All</span>
+          </div>
+
+          <!-- Overview -->
+          <div data-panelbody="ov">
+            <div class="kpis">
+              <div class="kpi"><div class="l">Minutes</div><div class="v">64</div><div class="d up">▲ 12 vs prev 7d</div></div>
+              <div class="kpi"><div class="l">Activities</div><div class="v">78</div><div class="d up">▲ 9</div></div>
+              <div class="kpi"><div class="l">Accuracy</div><div class="v">82%</div><div class="d down">▼ 3%</div></div>
+              <div class="kpi"><div class="l">Day streak</div><div class="v">5 🔥</div><div class="d muted">best 9</div></div>
+            </div>
+
+            <div class="card" style="margin-top:12px">
+              <div class="row"><strong class="small">Activities & accuracy</strong><span class="tiny muted">bars = activities · line = accuracy</span></div>
+              <div style="position:relative">
+                <div class="chart">
+                  <div class="col"><div class="bar" style="height:40%"></div><div class="lbl">Sat</div></div>
+                  <div class="col"><div class="bar" style="height:72%"></div><div class="lbl">Sun</div></div>
+                  <div class="col"><div class="bar" style="height:28%"></div><div class="lbl">Mon</div></div>
+                  <div class="col"><div class="bar" style="height:56%"></div><div class="lbl">Tue</div></div>
+                  <div class="col"><div class="bar" style="height:88%"></div><div class="lbl">Wed</div></div>
+                  <div class="col"><div class="bar" style="height:64%"></div><div class="lbl">Thu</div></div>
+                  <div class="col"><div class="bar" style="height:96%"></div><div class="lbl">Fri</div></div>
+                </div>
+                <svg viewBox="0 0 280 120" preserveAspectRatio="none" style="position:absolute; inset:0 0 18px 0; width:100%; height:102px; pointer-events:none">
+                  <polyline points="20,44 60,30 100,58 140,36 180,26 220,40 260,22" fill="none" stroke="var(--warn)" stroke-width="2.5" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="card">
+              <strong class="small">When she learns</strong>
+              <div class="chart" style="height:70px">
+                <div class="col"><div class="bar" style="height:10%; background:var(--muted)"></div><div class="lbl">6a</div></div>
+                <div class="col"><div class="bar" style="height:26%; background:var(--muted)"></div><div class="lbl">9a</div></div>
+                <div class="col"><div class="bar" style="height:14%; background:var(--muted)"></div><div class="lbl">12p</div></div>
+                <div class="col"><div class="bar" style="height:70%; background:var(--muted)"></div><div class="lbl">3p</div></div>
+                <div class="col"><div class="bar" style="height:100%; background:var(--muted)"></div><div class="lbl">6p</div></div>
+                <div class="col"><div class="bar" style="height:22%; background:var(--muted)"></div><div class="lbl">9p</div></div>
+              </div>
+              <p class="tiny muted" style="margin:6px 0 0">Best focus 5–7pm · accuracy drops 14% after 8pm</p>
+            </div>
+
+            <div class="card">
+              <strong class="small">Recent rounds</strong>
+              <table class="tbl" style="margin-top:6px">
+                <tr><th>Round</th><th>Score</th><th>When</th></tr>
+                <tr><td>🔢 Numbers</td><td>4/4</td><td>9:45am</td></tr>
+                <tr><td>🔤 Alphabet</td><td>3/4</td><td>9:31am</td></tr>
+                <tr><td>🎨 Colors</td><td>2/4</td><td>Yest 6:12pm</td></tr>
+                <tr><td>✏️ Writing</td><td>3/4</td><td>Yest 5:58pm</td></tr>
+              </table>
+            </div>
+            <div class="annot">All four surfaces are pure selectors over the existing <code>activityResults[]</code> — no schema change,
+              no network.</div>
+          </div>
+
+          <!-- Progress -->
+          <div data-panelbody="pg" hidden>
+            <div class="card">
+              <strong class="small">Subject mastery</strong>
+              <table class="tbl" style="margin-top:6px">
+                <tr><th>Subject</th><th>Mastery</th><th>Last</th></tr>
+                <tr><td>🔤 Alphabet</td><td>⭐⭐⭐⭐ 84%</td><td>today</td></tr>
+                <tr><td>🔢 Numbers</td><td>⭐⭐ 48%</td><td>today</td></tr>
+                <tr><td>🎨 Colors</td><td>⭐⭐⭐ 66%</td><td>1d</td></tr>
+                <tr><td>🔷 Shapes</td><td>⭐ 32%</td><td>6d</td></tr>
+                <tr><td>🐾 Animals</td><td>⭐⭐⭐ 71%</td><td>2d</td></tr>
+                <tr><td>✏️ Writing</td><td>⭐ 29%</td><td>3d</td></tr>
+              </table>
+            </div>
+            <div class="card">
+              <strong class="small">Skills — weakest first</strong>
+              <div class="skill"><div class="row small"><span>Counting to 10 <span class="muted">· Numbers</span></span><span class="muted">31%</span></div>
+                <div class="progressbar"><i style="width:31%; background:var(--danger)"></i></div></div>
+              <div class="skill"><div class="row small"><span>Letter tracing <span class="muted">· Writing</span></span><span class="muted">38%</span></div>
+                <div class="progressbar"><i style="width:38%; background:var(--danger)"></i></div></div>
+              <div class="skill"><div class="row small"><span>Shape naming <span class="muted">· Shapes</span></span><span class="muted">52%</span></div>
+                <div class="progressbar"><i style="width:52%; background:var(--warn)"></i></div></div>
+              <div class="skill"><div class="row small"><span>Letter sounds <span class="muted">· Alphabet</span></span><span class="muted">88%</span></div>
+                <div class="progressbar"><i style="width:88%; background:var(--success)"></i></div></div>
+              <p class="tiny muted" style="margin:10px 0 0">One canonical skill list — replaces today's three overlapping views
+                (“Skills by subject”, “Needs practice”, “All skills”).</p>
+            </div>
+            <div class="card">
+              <strong class="small">Badges</strong>
+              <div class="badge-grid">
+                <div class="badge"><span class="em">🔤</span>Letter Hero</div>
+                <div class="badge"><span class="em">🎨</span>Color Star</div>
+                <div class="badge locked"><span class="em">🔢</span>Number Ninja</div>
+                <div class="badge locked"><span class="em">🔷</span>Shape Scout</div>
+                <div class="badge"><span class="em">🐾</span>Animal Pal</div>
+                <div class="badge locked"><span class="em">✏️</span>Writer</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Focus -->
+          <div data-panelbody="fc" hidden>
+            <div class="card" style="background:var(--accent-soft); border-color:var(--accent)">
+              <strong class="small">Next round will practise</strong>
+              <p style="margin:6px 0 0">🔢 <strong>Counting to 10</strong> — easier items, 4 activities</p>
+              <p class="tiny muted" style="margin:4px 0 0">Chosen because mastery is 31% (below the 70% threshold).</p>
+            </div>
+            <div class="card">
+              <strong class="small">Needs practice</strong>
+              <div class="row" style="margin-top:8px"><span class="small">🔢 Counting to 10</span><button class="btn mini" type="button">Practice now</button></div>
+              <div class="row" style="margin-top:8px"><span class="small">✏️ Letter tracing</span><button class="btn mini" type="button">Practice now</button></div>
+              <div class="row" style="margin-top:8px"><span class="small">🔷 Shape naming</span><button class="btn mini" type="button">Practice now</button></div>
+              <p class="tiny muted" style="margin:10px 0 0">The only write-action allowed in Insights: it starts a child round and
+                hands the device over (PIN session ends by design).</p>
+            </div>
+            <div class="card">
+              <strong class="small">How rounds are chosen</strong>
+              <ul class="spec">
+                <li>Below <b>70%</b> mastery → easier items, more repetition</li>
+                <li><b>70–89%</b> → stay at the current level</li>
+                <li><b>90%+</b> → harder items unlock</li>
+              </ul>
+              <p class="tiny muted" style="margin:8px 0 0">Deterministic rules on this device — no AI, no data leaves the phone.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption>Insights — Overview / Progress / Focus (click the sub-tabs)</figcaption>
+    </figure>
+
+    <figure class="frame">
+      <div class="device tall">
+        <div class="statusbar"><span>🔒 Parent hub</span><span>Manage</span></div>
+        <div class="hub-head">
+          <div class="row">
+            <strong>Parent hub</strong>
+            <button class="btn secondary mini" type="button">Exit</button>
+          </div>
+          <div style="display:flex; gap:6px; margin-top:9px; overflow-x:auto">
+            <span class="chip is-active">👦 Aarav</span><span class="chip">👧 Meera</span><span class="chip">＋</span>
+          </div>
+          <div class="tabs" role="tablist">
+            <button type="button">📊 Insights</button>
+            <button class="is-active" type="button">⚙︎ Manage</button>
+          </div>
+        </div>
+        <div class="screen" data-panelgroup="manage">
+          <div class="subtabs">
+            <button class="is-active" data-panel="lr" type="button">Learners</button>
+            <button data-panel="ls" type="button">Learning</button>
+            <button data-panel="ap" type="button">App & audio</button>
+            <button data-panel="pv" type="button">Privacy</button>
+            <button data-panel="sp" type="button">Support</button>
+          </div>
+
+          <!-- Learners -->
+          <div data-panelbody="lr">
+            <div class="card learner-card">
+              <span class="av">👦</span>
+              <div style="flex:1">
+                <strong>Aarav</strong><div class="tiny muted">Nursery (3–5) · 132 ⭐ · since Jun 2026</div>
+              </div>
+              <button class="btn secondary mini" type="button">Edit</button>
+            </div>
+            <div class="card learner-card">
+              <span class="av">👧</span>
+              <div style="flex:1">
+                <strong>Meera</strong><div class="tiny muted">Class 1 (6+) · 58 ⭐ · since Aug 2026</div>
+              </div>
+              <button class="btn secondary mini" type="button">Edit</button>
+            </div>
+            <button class="btn secondary block" style="margin-top:12px" type="button">＋ Add learner</button>
+            <div class="annot write">Edit opens a dialog with name, avatar, age group and one <strong>Save</strong> —
+              today avatar and age group write silently on change while name needs a button.</div>
+            <div class="card danger-zone">
+              <strong class="small" style="color:var(--danger)">Delete learner</strong>
+              <p class="tiny muted" style="margin:4px 0 8px">Removes 132 stars, 78 activity records and 6 badges for Aarav. Cannot be undone.</p>
+              <label class="field"><span>Type “Aarav” to confirm</span><input placeholder="Aarav" /></label>
+              <button class="btn danger block" style="margin-top:9px" type="button">Delete permanently</button>
+            </div>
+          </div>
+
+          <!-- Learning setup -->
+          <div data-panelbody="ls" hidden>
+            <div class="card">
+              <strong class="small">Round & goal</strong>
+              <label class="field"><span>Activities per round</span>
+                <select><option>4 (default)</option><option>6</option><option>8</option></select></label>
+              <label class="field"><span>Daily goal (activities)</span><input value="12" /></label>
+              <label class="field"><span>Difficulty</span>
+                <select><option>Adaptive (recommended)</option><option>Always easier</option><option>Always harder</option></select></label>
+              <label class="field"><span>Daily time limit</span>
+                <select><option>Off</option><option>15 minutes</option><option>30 minutes</option></select></label>
+            </div>
+            <div class="card">
+              <strong class="small">Subjects shown to Aarav</strong>
+              <div class="switchrow"><span class="small">🔤 Alphabet</span><span class="switch on"></span></div>
+              <div class="switchrow"><span class="small">🔢 Numbers</span><span class="switch on"></span></div>
+              <div class="switchrow"><span class="small">🎨 Colors</span><span class="switch on"></span></div>
+              <div class="switchrow"><span class="small">🔷 Shapes</span><span class="switch on"></span></div>
+              <div class="switchrow"><span class="small">🐾 Animals</span><span class="switch on"></span></div>
+              <div class="switchrow"><span class="small">🎮 Games</span><span class="switch"></span></div>
+              <div class="switchrow"><span class="small">✏️ Writing</span><span class="switch on"></span></div>
+            </div>
+            <button class="btn block" style="margin-top:12px" type="button">Save learning setup</button>
+            <div class="annot write">New per-learner settings (<code>sessionLength</code>, <code>dailyGoal</code>,
+              <code>enabledSubjects</code>, <code>difficultyMode</code>, <code>dailyLimitMinutes</code>) — additive with defaults so
+              existing stores upgrade silently.</div>
+          </div>
+
+          <!-- App & audio -->
+          <div data-panelbody="ap" hidden>
+            <div class="card">
+              <strong class="small">Audio</strong>
+              <div class="switchrow"><span class="small">Read instructions aloud</span><span class="switch on"></span></div>
+              <div class="switchrow"><span class="small">Slow speech</span><span class="switch"></span></div>
+              <label class="field"><span>Voice speed</span><select><option>Normal</option><option>Slow</option><option>Very slow</option></select></label>
+            </div>
+            <div class="card">
+              <strong class="small">Display & language</strong>
+              <label class="field"><span>Language</span><select><option>English</option><option>हिन्दी</option><option>मराठी</option></select></label>
+              <label class="field"><span>Theme</span><select><option>Match device</option><option>Light</option><option>Dark</option></select></label>
+              <div class="switchrow"><span class="small">High contrast</span><span class="switch"></span></div>
+            </div>
+            <button class="btn block" style="margin-top:12px" type="button">Save settings</button>
+            <div class="annot write">These three controls leave the child header — that's the whole point: a 4-year-old should not be
+              able to switch the app to Marathi mid-round.</div>
+          </div>
+
+          <!-- Privacy -->
+          <div data-panelbody="pv" hidden>
+            <div class="card">
+              <strong class="small">Parent PIN</strong>
+              <label class="field"><span>Current PIN</span><input type="password" placeholder="••••" /></label>
+              <label class="field"><span>New PIN</span><input type="password" placeholder="••••" /></label>
+              <button class="btn block" style="margin-top:10px" type="button">Update PIN</button>
+            </div>
+            <div class="card">
+              <strong class="small">What's stored on this device</strong>
+              <ul class="spec">
+                <li><b>2 learner profiles</b> — name, avatar, age group</li>
+                <li><b>136 activity records</b> — skill, correct/incorrect, response time</li>
+                <li><b>Settings & PIN</b></li>
+                <li>Nothing is sent to a server. Clearing browser data erases it.</li>
+              </ul>
+              <button class="btn secondary block" style="margin-top:10px" type="button">⬇ Export as JSON</button>
+            </div>
+            <div class="card danger-zone">
+              <strong class="small" style="color:var(--danger)">Reset</strong>
+              <button class="btn secondary block" style="margin-top:8px" type="button">Reset Aarav's progress</button>
+              <button class="btn danger block" style="margin-top:8px" type="button">Erase everything</button>
+            </div>
+          </div>
+
+          <!-- Support -->
+          <div data-panelbody="sp" hidden>
+            <div class="card">
+              <strong class="small">Feedback</strong>
+              <label class="field"><span>Type</span><select><option>Bug report</option><option>General feedback</option><option>Suggest an activity</option></select></label>
+              <label class="field"><span>Message</span><input placeholder="What happened?" /></label>
+              <button class="btn block" style="margin-top:10px" type="button">Send message</button>
+              <p class="tiny muted" style="margin:8px 0 0">No child data is attached.</p>
+            </div>
+            <div class="card">
+              <strong class="small">Content available</strong>
+              <table class="tbl" style="margin-top:6px">
+                <tr><td>🔤 Alphabet</td><td>20</td></tr>
+                <tr><td>🔢 Numbers</td><td>12</td></tr>
+                <tr><td>🎨 Colors</td><td>12</td></tr>
+                <tr><td>🔷 Shapes</td><td>5</td></tr>
+                <tr><td>🐾 Animals</td><td>17</td></tr>
+                <tr><td>🎮 Games</td><td>12</td></tr>
+                <tr><td>✏️ Writing</td><td>10</td></tr>
+              </table>
+              <p class="tiny muted" style="margin:8px 0 0">88 activities · works offline · v1.2.0</p>
+            </div>
+            <button class="btn secondary block" style="margin-top:12px" type="button">📲 Install app</button>
+          </div>
+        </div>
+      </div>
+      <figcaption>Manage — Learners / Learning / App &amp; audio / Privacy / Support (click the sub-tabs)</figcaption>
+    </figure>
+
+    <figure class="frame">
+      <div class="device tall">
+        <div class="statusbar"><span>rationale</span><span>notes</span></div>
+        <div class="screen">
+          <div class="card">
+            <strong>Navigation model</strong>
+            <div class="flow" style="margin-top:10px">
+              <b>Play home</b> → <b>⚙︎</b> → <b>PIN</b> → <b>Parent hub</b> → <b>Insights</b> / <b>Manage</b>
+            </div>
+            <ul class="spec">
+              <li><b>Deep link</b> <code>/learn/?parent=insights</code> so a parent can bookmark the dashboard.</li>
+              <li><b>PIN survives</b> learner switches and tab switches; it is dropped only by <em>Exit</em> and by
+                <em>Practice now</em>.</li>
+              <li><b>Back</b> from any Manage sub-panel returns to the hub, not to the child home.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <strong>Why split analytics from operations</strong>
+            <ul class="spec">
+              <li><b>Different cadence</b> — insights are read daily, settings changed monthly.</li>
+              <li><b>Different risk</b> — today a parent scrolls past “Delete profile” to reach a chart.</li>
+              <li><b>Different save model</b> — reading needs none; writing needs one consistent explicit save
+                (today there are three models on one screen).</li>
+              <li><b>Enforceable</b> — <code>parent/insights/**</code> may not import store mutators; a lint rule keeps
+                the boundary from eroding.</li>
+            </ul>
+          </div>
+
+          <div class="card">
+            <strong>What today's parent screen becomes</strong>
+            <table class="tbl" style="margin-top:6px">
+              <tr><th>Today (one scroll)</th><th>Goes to</th></tr>
+              <tr><td>Today's learning</td><td>Insights · Overview</td></tr>
+              <tr><td>Skills by subject</td><td>Insights · Progress</td></tr>
+              <tr><td>Recommended practice</td><td>Insights · Focus</td></tr>
+              <tr><td>Weekly summary</td><td>Insights · Overview</td></tr>
+              <tr><td>Adaptive explainer</td><td>Insights · Focus</td></tr>
+              <tr><td>Skill progress ×2</td><td>Insights · Progress <em>(merged)</em></td></tr>
+              <tr><td>Badges</td><td>Insights · Progress</td></tr>
+              <tr><td>Lifetime stats</td><td>Insights · Overview</td></tr>
+              <tr><td>Profile switcher / add</td><td>Manage · Learners</td></tr>
+              <tr><td>Child profile / delete</td><td>Manage · Learners</td></tr>
+              <tr><td>Settings + PIN</td><td>Manage · App, Privacy</td></tr>
+              <tr><td>Feedback</td><td>Manage · Support</td></tr>
+              <tr><td>Subject catalogue</td><td>Manage · Support</td></tr>
+            </table>
+          </div>
+
+          <div class="card">
+            <strong>Delivery</strong>
+            <ul class="spec">
+              <li><b>P0</b> Hub shell + move existing sections into panels (pure refactor)</li>
+              <li><b>P1</b> Operations hygiene: explicit saves, gated delete, learning setup, export/reset</li>
+              <li><b>P2</b> Analytics depth: range selector, trends, time-of-day, session log</li>
+              <li><b>P3</b> Child view: goal ring, continue card, mastery dots, header cleanup, session resume</li>
+            </ul>
+            <p class="tiny muted" style="margin:8px 0 0">Roughly one session each; P0 must land first.</p>
+          </div>
+        </div>
+      </div>
+      <figcaption>Rationale & migration map</figcaption>
+    </figure>
+  </div>
+</div>
+
+<script>
+  document.getElementById('themeBtn').addEventListener('click', function () {
+    var root = document.documentElement;
+    var dark = root.getAttribute('data-theme') === 'dark';
+    root.setAttribute('data-theme', dark ? 'light' : 'dark');
+    this.textContent = dark ? 'Dark theme' : 'Light theme';
+  });
+
+  document.querySelectorAll('[data-panelgroup]').forEach(function (group) {
+    group.querySelectorAll('.subtabs button').forEach(function (tab) {
+      tab.addEventListener('click', function () {
+        group.querySelectorAll('.subtabs button').forEach(function (b) { b.classList.remove('is-active'); });
+        tab.classList.add('is-active');
+        group.querySelectorAll('[data-panelbody]').forEach(function (body) {
+          body.hidden = body.getAttribute('data-panelbody') !== tab.getAttribute('data-panel');
+        });
+        group.scrollTop = 0;
+      });
+    });
+  });
+
+  document.querySelectorAll('.switch').forEach(function (sw) {
+    sw.addEventListener('click', function () { sw.classList.toggle('on'); });
+  });
+
+  document.querySelectorAll('.hub-head .chip, .hub-head .tabs button, .subtabs ~ div > .chip').forEach(function (el) {
+    el.addEventListener('click', function () {
+      var siblings = el.parentElement.children;
+      for (var i = 0; i < siblings.length; i += 1) {
+        siblings[i].classList.remove('is-active');
+      }
+      el.classList.add('is-active');
+    });
+  });
+</script>
+</body>
+</html>
