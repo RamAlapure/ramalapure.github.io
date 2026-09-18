@@ -694,6 +694,59 @@ html:not([data-theme]) .learn-language-select {
   gap: 1.25rem;
 }
 
+.learn-parent-tabs {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+  padding: 0.3rem;
+  border: 1px solid var(--learn-border);
+  border-radius: 999px;
+  background: var(--learn-bg);
+}
+
+.learn-parent-tab {
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--learn-muted);
+  padding: 0.55rem 0.9rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.learn-parent-tab.is-active {
+  background: var(--learn-accent);
+  color: var(--learn-on-accent);
+}
+
+.learn-parent-tabpanel {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.learn-parent-subtabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.learn-parent-subtab {
+  border: 1px solid var(--learn-border);
+  border-radius: 999px;
+  background: var(--learn-surface);
+  color: var(--learn-text);
+  padding: 0.35rem 0.8rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.learn-parent-subtab.is-active {
+  border-color: var(--learn-accent);
+  background: var(--learn-accent-soft);
+  font-weight: 700;
+}
+
 .learn-error-panel {
   margin-top: 2rem;
   display: grid;
