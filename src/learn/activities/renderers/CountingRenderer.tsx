@@ -13,7 +13,7 @@ interface CountingRendererProps {
 export function CountingRenderer({ activity, onComplete }: CountingRendererProps) {
   const { tUi, tUiDigits, language, formatCount } = useLearnI18n();
   const tapToCount = activity.content.count >= 7;
-  const [tapped, setTapped] = useState<Set<number>>(() => new Set());
+  const [tapOrder, setTapOrder] = useState<number[]>([]);
   const [selected, setSelected] = useState<number | null>(null);
   const answered = selected !== null;
   const correct = selected === activity.content.count;
@@ -23,23 +23,12 @@ export function CountingRenderer({ activity, onComplete }: CountingRendererProps
   );
 
   function handleTap(index: number) {
-    if (!tapToCount || answered) return;
-    setTapped((current) => {
-      const next = new Set(current);
-      if (next.has(index)) {
-        next.delete(index);
-      } else {
-        next.add(index);
-      }
-      return next;
-    });
+    if (!tapToCount || answered || tapOrder.includes(index)) return;
+    setTapOrder((current) => [...current, index]);
   }
 
   function handleSelect(value: number) {
     if (answered) return;
-    if (tapToCount && tapped.size < activity.content.count) {
-      return;
-    }
     setSelected(value);
     completeWithFeedback(value === activity.content.count, onComplete);
   }
@@ -55,24 +44,31 @@ export function CountingRenderer({ activity, onComplete }: CountingRendererProps
         }`.trim()}
         aria-label={tUiDigits('counting.itemsAria', { count: activity.content.count })}
       >
-        {items.map((index) => (
-          <button
-            key={index}
-            type="button"
-            className={`learn-count-item ${tapped.has(index) ? 'is-tapped' : ''}`.trim()}
-            onClick={() => handleTap(index)}
-            disabled={!tapToCount || answered}
-            aria-label={tUiDigits('counting.itemAria', { index: index + 1 })}
-          >
-            {activity.content.itemEmoji}
-          </button>
-        ))}
+        {items.map((index) => {
+          const order = tapOrder.indexOf(index);
+          const isTapped = order >= 0;
+          return (
+            <button
+              key={index}
+              type="button"
+              className={`learn-count-item ${isTapped ? 'is-tapped' : ''}`.trim()}
+              onClick={() => handleTap(index)}
+              disabled={!tapToCount || answered || isTapped}
+              aria-label={tUiDigits('counting.itemAria', { index: index + 1 })}
+            >
+              <span className="learn-count-emoji" aria-hidden="true">{activity.content.itemEmoji}</span>
+              {isTapped ? (
+                <span className="learn-count-order" aria-hidden="true">
+                  {digitLabel(order + 1, language)}
+                </span>
+              ) : null}
+            </button>
+          );
+        })}
       </div>
-      {tapToCount ? (
+      {tapToCount && tapOrder.length > 0 ? (
         <p className="learn-count-tally" aria-live="polite">
-          {tapped.size < activity.content.count
-            ? tUi('counting.tapAllFirst')
-            : tUi('counting.tapped', { count: digitLabel(tapped.size, language) })}
+          {tUi('counting.tapped', { count: digitLabel(tapOrder.length, language) })}
         </p>
       ) : null}
       <div className="learn-choices learn-count-choices">
@@ -91,7 +87,7 @@ export function CountingRenderer({ activity, onComplete }: CountingRendererProps
               className={`learn-choice ${stateClass}`.trim()}
               aria-label={formatCount(value)}
               onClick={() => handleSelect(value)}
-              disabled={answered || (tapToCount && tapped.size < activity.content.count)}
+              disabled={answered}
             >
               {digitLabel(value, language)}
             </button>
