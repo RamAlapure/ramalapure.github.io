@@ -2,12 +2,14 @@ import type { LearnLanguage } from '../i18n/types';
 import type {
   ActivityResult,
   ChildProfile,
+  LearnPreferences,
   LearnRewards,
   LearnSessions,
   LearnSettings,
   LearnStore,
   SkillRecord,
 } from './types';
+import { defaultLearnPreferences } from './preferences';
 import { normalizeLearnerAvatar, type LearnerAvatar } from './profile-avatar';
 
 export type AgeGroup = 'nursery' | 'class1';
@@ -18,6 +20,7 @@ export interface ProfileData {
   skills: Record<string, SkillRecord>;
   rewards: LearnRewards;
   sessions: LearnSessions;
+  preferences: LearnPreferences;
 }
 
 export interface LearnRootStore {
@@ -82,6 +85,7 @@ export function emptyProfileData(
       sessionsCompleted: 0,
       bySubject: {},
     },
+    preferences: defaultLearnPreferences(),
   };
 }
 
@@ -139,6 +143,10 @@ function normalizeProfileData(parsed: Partial<ProfileData>, fallbackName: string
       bySubject: parsed.sessions?.bySubject ?? {},
       lastSubject: parsed.sessions?.lastSubject,
     },
+    preferences: {
+      ...defaultLearnPreferences(),
+      ...parsed.preferences,
+    },
   };
 }
 
@@ -157,6 +165,7 @@ function migrateV2Store(parsed: Partial<LearnStore>): LearnRootStore {
       skills: parsed.skills,
       rewards: parsed.rewards,
       sessions: parsed.sessions,
+      preferences: parsed.preferences,
     },
     parsed.profile?.name ?? 'Learner',
   );
@@ -209,10 +218,18 @@ function normalizeRoot(parsed: Partial<LearnRootStore>): LearnRootStore {
 export function profileToLearnStore(root: LearnRootStore, profileId = root.activeProfileId): LearnStore {
   const profileData = root.profiles[profileId] ?? root.profiles[root.activeProfileId];
   if (!profileData) {
-    return { ...emptyProfileData(), settings: root.settings };
+    return {
+      ...emptyProfileData(),
+      preferences: defaultLearnPreferences(),
+      settings: root.settings,
+    };
   }
   return {
     ...profileData,
+    preferences: {
+      ...defaultLearnPreferences(),
+      ...profileData.preferences,
+    },
     settings: root.settings,
   };
 }
@@ -353,6 +370,38 @@ export function updateProfileSettings(
   }
 
   return writeRootStore(nextRoot);
+}
+
+export function resetProfileData(root: LearnRootStore, profileId: string): LearnRootStore {
+  const current = root.profiles[profileId];
+  if (!current) return root;
+
+  const reset = emptyProfileData(
+    current.profile.name,
+    current.profile.ageGroup === 'class1' ? 'class1' : 'nursery',
+    current.profile.avatar,
+    current.profile.language ?? root.settings.language ?? 'en',
+  );
+
+  return writeRootStore({
+    ...root,
+    profiles: {
+      ...root.profiles,
+      [profileId]: {
+        ...reset,
+        profile: {
+          ...reset.profile,
+          id: profileId,
+          name: current.profile.name,
+          createdAt: current.profile.createdAt,
+        },
+      },
+    },
+  });
+}
+
+export function resetAllProfiles(root: LearnRootStore): LearnRootStore {
+  return writeRootStore(emptyRootStore());
 }
 
 export function deleteProfile(root: LearnRootStore, profileId: string): LearnRootStore {

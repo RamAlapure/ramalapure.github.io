@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useLearnI18n } from '../context/LearnI18nContext';
 import { isValidPin, PIN_LENGTH, verifyParentPin } from '../parent/pin';
 
@@ -80,6 +80,46 @@ export function ParentPinGate({
     ? isValidPin(pin) && isValidPin(confirmPin)
     : pin.length === PIN_LENGTH;
 
+  useEffect(() => {
+    function isTypingInField(target: EventTarget | null): boolean {
+      if (!(target instanceof HTMLElement)) return false;
+      const tag = target.tagName;
+      return tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || target.isContentEditable;
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+      if (isTypingInField(event.target)) return;
+
+      if (/^[0-9]$/.test(event.key)) {
+        event.preventDefault();
+        handleDigit(event.key);
+        return;
+      }
+
+      switch (event.key) {
+        case 'Backspace':
+        case 'Delete':
+          event.preventDefault();
+          handleBackspace();
+          return;
+        case 'Enter':
+          event.preventDefault();
+          if (canSubmit) handleSubmit();
+          return;
+        case 'Escape':
+          event.preventDefault();
+          onBack();
+          return;
+        default:
+          return;
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [canSubmit, confirmPin, isSetup, onBack, pin, storedPin]);
+
   const subtitle = isSetup
     ? tUi('pin.setupSubtitle')
     : variant === 'modal'
@@ -104,6 +144,7 @@ export function ParentPinGate({
         ))}
       </div>
 
+      <p className="learn-pin-keyboard-hint">{tUi('pin.keyboardHint')}</p>
       {error ? <p className="learn-pin-error" role="alert">{error}</p> : null}
 
       <div className="learn-pin-pad">

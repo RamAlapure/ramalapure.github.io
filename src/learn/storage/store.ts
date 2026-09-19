@@ -9,10 +9,12 @@ import type {
   ActivityAttemptInput,
   ActivityResult,
   ChildProfile,
+  LearnPreferences,
   LearnSettings,
   LearnStore,
   SkillRecord,
 } from './types';
+import { defaultLearnPreferences } from './preferences';
 import { localDateKey, localYesterdayKey } from './dates';
 import {
   type AgeGroup,
@@ -26,11 +28,14 @@ import {
   profileCount,
   profileNeedsName,
   readRootStore,
+  resetAllProfiles,
+  resetProfileData,
   switchProfile,
   updateActiveProfile,
   updateProfileSettings,
   writeRootStore,
 } from './root-store';
+import type { LearnRootStore } from './root-store';
 import type { LearnerAvatar } from './profile-avatar';
 
 export type { AgeGroup };
@@ -86,6 +91,7 @@ export function emptyStore(): LearnStore {
   const profile = emptyProfileData();
   return {
     ...profile,
+    preferences: defaultLearnPreferences(),
     settings: {
       soundEnabled: true,
       slowSpeech: false,
@@ -299,7 +305,49 @@ export function addChildProfile(
   return readStoreFromRoot(createProfile(readRootStore(), name, ageGroup, avatar));
 }
 
-function readStoreFromRoot(root: ReturnType<typeof readRootStore>): LearnStore {
+export function updateLearnPreferences(preferences: Partial<LearnPreferences>): LearnStore {
+  const updated = updateActiveProfile(readRootStore(), (profile) => ({
+    ...profile,
+    preferences: {
+      ...defaultLearnPreferences(),
+      ...profile.preferences,
+      ...preferences,
+    },
+  }));
+  return readStoreFromRoot(updated);
+}
+
+export function exportStore(): string {
+  return JSON.stringify(readRootStore(), null, 2);
+}
+
+export interface StorageDisclosure {
+  profileCount: number;
+  activityCount: number;
+}
+
+export function getStorageDisclosure(): StorageDisclosure {
+  const root = readRootStore();
+  const activityCount = Object.values(root.profiles).reduce(
+    (sum, profile) => sum + profile.activityResults.length,
+    0,
+  );
+  return {
+    profileCount: Object.keys(root.profiles).length,
+    activityCount,
+  };
+}
+
+export function resetProfile(): LearnStore {
+  const root = readRootStore();
+  return readStoreFromRoot(resetProfileData(root, root.activeProfileId));
+}
+
+export function resetAll(): LearnStore {
+  return readStoreFromRoot(resetAllProfiles(readRootStore()));
+}
+
+function readStoreFromRoot(root: LearnRootStore): LearnStore {
   const active = root.profiles[root.activeProfileId];
   if (!active) {
     return emptyStore();
@@ -307,6 +355,10 @@ function readStoreFromRoot(root: ReturnType<typeof readRootStore>): LearnStore {
   const language = active.profile.language ?? root.settings.language ?? 'en';
   return {
     ...active,
+    preferences: {
+      ...defaultLearnPreferences(),
+      ...active.preferences,
+    },
     settings: {
       ...root.settings,
       language,

@@ -1,67 +1,199 @@
+import type { CSSProperties } from 'react';
 import { useLearnI18n } from '../../../context/LearnI18nContext';
-import { formatLocalizedCount, getTodayStats, getWeeklySummary } from '../../../parent/analytics';
-import { DEFAULT_LEARNER_NAME } from '../../../storage/store';
+import {
+  getChartSeries,
+  getRangeStats,
+  getRecentSessions,
+  getTimeOfDayInsight,
+  type AnalyticsRange,
+} from '../../../parent/analytics';
 import type { LearnStore } from '../../../storage/types';
 
 interface OverviewPanelProps {
   store: LearnStore;
+  range: AnalyticsRange;
 }
 
-export function OverviewPanel({ store }: OverviewPanelProps) {
+function formatDelta(value: number, suffix = ''): string {
+  if (value === 0) return '—';
+  const sign = value > 0 ? '▲' : '▼';
+  return `${sign} ${Math.abs(value)}${suffix}`;
+}
+
+function chartCaptionKey(range: AnalyticsRange): string {
+  return range === 'today' ? 'parent.chart.caption.today' : 'parent.chart.caption.7d';
+}
+
+export function OverviewPanel({ store, range }: OverviewPanelProps) {
   const { language, tUi, tUiDigits, formatCount } = useLearnI18n();
-  const defaultName = tUi('profile.defaultName');
-  const childName =
-    store.profile?.name === DEFAULT_LEARNER_NAME
-      ? defaultName
-      : (store.profile?.name ?? defaultName);
-  const rewards = store.rewards ?? { points: 0, totalStars: 0, badges: [], dailyStreak: 0 };
-  const sessions = store.sessions ?? { sessionsCompleted: 0, bySubject: {} };
-  const today = getTodayStats(store);
-  const weekly = getWeeklySummary(store, language);
-  const maxWeekly = Math.max(1, ...weekly.map((day) => day.count));
+  const stats = getRangeStats(store, range);
+  const lifetime = getRangeStats(store, 'all');
+  const { points: series } = getChartSeries(store, range, language);
+  const timeOfDay = getTimeOfDayInsight(store, range);
+  const recentSessions = getRecentSessions(store, language);
+  const maxActivities = Math.max(1, ...series.map((point) => point.activities));
+  const maxTimeOfDay = Math.max(1, ...timeOfDay.buckets.map((bucket) => bucket.activities));
+  const chartIsWide = series.length > 7;
+  const rounds = store.sessions?.sessionsCompleted ?? 0;
+  const stars = store.rewards?.totalStars ?? 0;
 
   return (
     <>
-      <div className="learn-panel-section learn-parent-dashboard">
-        <h2 className="learn-section-title">{tUi('parent.childLabel', { name: childName })}</h2>
-        <div className="learn-dashboard-card">
-          <h3 className="learn-dashboard-heading">{tUi('parent.todayLearning')}</h3>
-          <ul className="learn-stat-list">
-            <li><span>{tUi('parent.minutes')}</span><strong>{formatCount(today.minutes)}</strong></li>
-            <li><span>{tUi('parent.activitiesCount')}</span><strong>{formatCount(today.activities)}</strong></li>
-            <li>
-              <span>{tUi('parent.correct')}</span>
-              <strong>{formatCount(today.correct)} / {formatCount(today.activities)}</strong>
-            </li>
-          </ul>
+      <div className="learn-kpi-grid">
+        <div className="learn-kpi-card">
+          <span className="learn-kpi-label">{tUi('parent.minutes')}</span>
+          <strong className="learn-kpi-value">{formatCount(stats.minutes)}</strong>
+          <span className={`learn-kpi-delta ${stats.deltaMinutes >= 0 ? 'is-up' : 'is-down'}`.trim()}>
+            {formatDelta(stats.deltaMinutes)}
+          </span>
+        </div>
+        <div className="learn-kpi-card">
+          <span className="learn-kpi-label">{tUi('parent.activitiesCount')}</span>
+          <strong className="learn-kpi-value">{formatCount(stats.activities)}</strong>
+          <span className={`learn-kpi-delta ${stats.deltaActivities >= 0 ? 'is-up' : 'is-down'}`.trim()}>
+            {formatDelta(stats.deltaActivities)}
+          </span>
+        </div>
+        <div className="learn-kpi-card">
+          <span className="learn-kpi-label">{tUi('parent.accuracy')}</span>
+          <strong className="learn-kpi-value">{formatCount(stats.accuracy)}%</strong>
+          <span className={`learn-kpi-delta ${stats.deltaAccuracy >= 0 ? 'is-up' : 'is-down'}`.trim()}>
+            {formatDelta(stats.deltaAccuracy, '%')}
+          </span>
+        </div>
+        <div className="learn-kpi-card">
+          <span className="learn-kpi-label">{tUi('parent.dayStreak')}</span>
+          <strong className="learn-kpi-value">🔥 {formatCount(stats.streak)}</strong>
+          <span className="learn-kpi-delta">{tUi('parent.bestStreak', { count: stats.bestStreak })}</span>
         </div>
       </div>
 
+      <p className="learn-lifetime-strip">
+        {tUiDigits('parent.lifetimeStrip', {
+          rounds,
+          stars,
+          accuracy: lifetime.accuracy,
+        })}
+      </p>
+
       <div className="learn-panel-section">
-        <h2 className="learn-section-title">{tUi('parent.weeklySummary')}</h2>
-        <div className="learn-weekly-chart" role="img" aria-label={tUi('parent.weeklyAria')}>
-          {weekly.map((day) => (
-            <div key={day.label} className="learn-weekly-day">
-              <div
-                className="learn-weekly-bar"
-                style={{ height: `${Math.max(12, (day.count / maxWeekly) * 100)}%` }}
-                title={tUiDigits('parent.weeklyTooltip', { count: day.count })}
-              />
-              <span className="learn-weekly-label">{day.label}</span>
-              <span className="learn-weekly-count">{formatLocalizedCount(day.count, language)}</span>
+        <div className="learn-chart-header">
+          <h2 className="learn-section-title">{tUi('parent.chart.activityAccuracy')}</h2>
+          <span className="learn-chart-legend">{tUi('parent.chart.legend')}</span>
+        </div>
+        <p className="learn-chart-caption">{tUi(chartCaptionKey(range))}</p>
+        {series.length > 0 ? (
+          <div className="learn-chart-scroll">
+            <div
+              className={`learn-combo-chart ${chartIsWide ? 'is-wide' : ''}`.trim()}
+              style={{ '--chart-points': series.length } as CSSProperties}
+              role="img"
+              aria-label={tUi(chartCaptionKey(range))}
+            >
+              {series.map((point) => (
+                <div key={point.day} className="learn-combo-col">
+                  <div
+                    className="learn-combo-bar"
+                    style={{ height: `${Math.max(8, (point.activities / maxActivities) * 100)}%` }}
+                    title={tUiDigits('parent.weeklyTooltip', { count: point.activities })}
+                  />
+                  <span className="learn-weekly-label">{point.showLabel ? point.label : ''}</span>
+                </div>
+              ))}
+              <svg className="learn-combo-line" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                <polyline
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  points={series
+                    .map((point, index) => {
+                      const x = series.length <= 1 ? 50 : (index / (series.length - 1)) * 100;
+                      const y = 100 - point.accuracy;
+                      return `${x},${y}`;
+                    })
+                    .join(' ')}
+                />
+              </svg>
             </div>
-          ))}
-        </div>
+          </div>
+        ) : (
+          <p className="learn-subtitle">{tUi('parent.chart.empty')}</p>
+        )}
       </div>
 
       <div className="learn-panel-section">
-        <h2 className="learn-section-title">{tUi('parent.lifetime')}</h2>
-        <ul className="learn-stat-list learn-stat-summary">
-          <li><span>{tUi('parent.practiceRounds')}</span><strong>{formatCount(sessions.sessionsCompleted)}</strong></li>
-          <li><span>{tUi('parent.totalStars')}</span><strong>⭐ {formatCount(rewards.totalStars)}</strong></li>
-          <li><span>{tUi('parent.totalPoints')}</span><strong>🏆 {formatCount(rewards.points)}</strong></li>
-          <li><span>{tUi('parent.dayStreak')}</span><strong>🔥 {formatCount(rewards.dailyStreak)}</strong></li>
-        </ul>
+        <h2 className="learn-section-title">{tUi('parent.chart.timeOfDay')}</h2>
+        <p className="learn-chart-caption">{tUi(`parent.chart.timeOfDayCaption.${range}`)}</p>
+        {timeOfDay.hasData ? (
+          <>
+            <div
+              className="learn-weekly-chart learn-time-chart"
+              role="img"
+              aria-label={tUiDigits('parent.chart.timeOfDayAria', { count: timeOfDay.totalActivities })}
+            >
+              {timeOfDay.buckets.map((bucket) => (
+                <div key={bucket.hourBucket} className="learn-weekly-day learn-time-day">
+                  {bucket.activities > 0 ? (
+                    <span className="learn-time-count">{formatCount(bucket.activities)}</span>
+                  ) : (
+                    <span className="learn-time-count" aria-hidden="true">&nbsp;</span>
+                  )}
+                  <div
+                    className="learn-weekly-bar learn-time-bar"
+                    style={{ height: `${Math.max(8, (bucket.activities / maxTimeOfDay) * 100)}%` }}
+                    title={tUiDigits('parent.chart.timeOfDayBucket', {
+                      range: bucket.rangeLabel,
+                      count: bucket.activities,
+                      percent: bucket.sharePercent,
+                      accuracy: bucket.accuracy,
+                    })}
+                  />
+                  <span className="learn-weekly-label" title={bucket.rangeLabel}>{bucket.label}</span>
+                </div>
+              ))}
+            </div>
+            <p className="learn-time-insight">
+              {tUiDigits('parent.chart.timeOfDayPeak', {
+                range: timeOfDay.peakRangeLabel,
+                count: timeOfDay.peakActivities,
+                percent: timeOfDay.peakSharePercent,
+              })}
+              {timeOfDay.accuracyDropPercent !== null && timeOfDay.accuracyDropPercent >= 8
+                ? ` ${tUiDigits('parent.chart.timeOfDayAccuracyDrop', {
+                    drop: timeOfDay.accuracyDropPercent,
+                  })}`
+                : ''}
+            </p>
+          </>
+        ) : (
+          <p className="learn-subtitle">{tUi('parent.chart.timeOfDayEmpty')}</p>
+        )}
+      </div>
+
+      <div className="learn-panel-section">
+        <h2 className="learn-section-title">{tUi('parent.recentRounds')}</h2>
+        {recentSessions.length > 0 ? (
+          <table className="learn-data-table">
+            <thead>
+              <tr>
+                <th>{tUi('parent.round')}</th>
+                <th>{tUi('parent.score')}</th>
+                <th>{tUi('parent.when')}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {recentSessions.map((session) => (
+                <tr key={session.at}>
+                  <td>{session.subjectEmoji} {session.subjectLabel}</td>
+                  <td>{session.score}/{session.total}</td>
+                  <td>{session.timeLabel}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="learn-subtitle">{tUi('parent.recentEmpty')}</p>
+        )}
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useState, type FormEvent } from 'react';
 import { useLearnI18n } from '../context/LearnI18nContext';
 import {
   canAddProfile,
@@ -9,29 +9,27 @@ import {
 import type { ProfileSummary } from '../storage/store';
 import { learnerAvatarEmoji, type LearnerAvatar } from '../storage/profile-avatar';
 import { AvatarPicker } from './AvatarPicker';
-import { LearnHeaderActions } from './LearnHeaderActions';
+import { GrownUpSettingsSheet } from './GrownUpSettingsSheet';
 
 type WelcomeMode = 'pick' | 'name' | 'new';
 
 interface WelcomeScreenProps {
   profiles: ProfileSummary[];
-  openNewLearner?: boolean;
-  onNewLearnerOpened?: () => void;
   onConfirmProfile: (profileId: string) => void;
   onSaveName: (profileId: string, name: string, avatar: LearnerAvatar) => void;
   onCreateProfile: (name: string, avatar: LearnerAvatar) => void;
   onRequestNewLearner: () => void;
+  onOpenParentHub: () => void;
   onComplete: () => void;
 }
 
 export function WelcomeScreen({
   profiles,
-  openNewLearner = false,
-  onNewLearnerOpened,
   onConfirmProfile,
   onSaveName,
   onCreateProfile,
   onRequestNewLearner,
+  onOpenParentHub,
   onComplete,
 }: WelcomeScreenProps) {
   const { tUi, tUiDigits, formatCount } = useLearnI18n();
@@ -40,16 +38,7 @@ export function WelcomeScreen({
   const [name, setName] = useState('');
   const [avatar, setAvatar] = useState<LearnerAvatar>('boy');
   const [nameError, setNameError] = useState('');
-
-  useEffect(() => {
-    if (!openNewLearner) return;
-    setMode('new');
-    setName('');
-    setAvatar('boy');
-    setNameError('');
-    setPendingProfileId(null);
-    onNewLearnerOpened?.();
-  }, [openNewLearner]);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   function displayName(profileName: string): string {
     return profileName === DEFAULT_LEARNER_NAME ? tUi('profile.defaultName') : profileName;
@@ -113,10 +102,27 @@ export function WelcomeScreen({
 
   return (
     <>
-      <header className="learn-header learn-header-welcome">
+      <header className="learn-header learn-child-header">
         <div className="learn-header-spacer" aria-hidden="true" />
-        <LearnHeaderActions />
+        <button
+          type="button"
+          className="learn-gear-btn"
+          aria-label={tUi('settings.grownUpTitle')}
+          onClick={() => setSettingsOpen(true)}
+        >
+          ⚙︎
+        </button>
       </header>
+
+      {settingsOpen ? (
+        <GrownUpSettingsSheet
+          onClose={() => setSettingsOpen(false)}
+          onOpenParentHub={() => {
+            setSettingsOpen(false);
+            onOpenParentHub();
+          }}
+        />
+      ) : null}
 
       <section className="learn-panel learn-welcome-panel">
         {mode === 'pick' ? (

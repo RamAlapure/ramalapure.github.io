@@ -7,8 +7,10 @@ import type { ChildProfile, LearnSettings, LearnStore } from '../storage/types';
 import { FocusPanel } from './parent/insights/FocusPanel';
 import { OverviewPanel } from './parent/insights/OverviewPanel';
 import { ProgressPanel } from './parent/insights/ProgressPanel';
+import type { AnalyticsRange } from '../parent/analytics';
 import { AppAudioPanel } from './parent/manage/AppAudioPanel';
 import { LearnersPanel } from './parent/manage/LearnersPanel';
+import { LearningSetupPanel } from './parent/manage/LearningSetupPanel';
 import { PrivacyPanel } from './parent/manage/PrivacyPanel';
 import { SupportPanel } from './parent/manage/SupportPanel';
 
@@ -22,17 +24,25 @@ interface ParentScreenProps {
   onDeleteProfile: (profileId: string) => void;
   onUpdateProfile: (name: string, ageGroup?: AgeGroup, avatar?: LearnerAvatar) => void;
   onUpdateSettings: (settings: Partial<LearnSettings>) => void;
+  onUpdatePreferences: (preferences: Partial<LearnStore['preferences']>) => void;
   onChangePin: (pin: string) => void;
+  onResetProfile: () => void;
+  onResetAll: () => void;
   onPracticeSubject: (subjectId: SubjectId) => void;
   onBack: () => void;
+  initialTab?: ParentTab;
+  initialInsightsPanel?: InsightsPanel;
+  initialManagePanel?: ManagePanel;
+  initialOpenAddLearner?: boolean;
 }
 
 type ParentTab = 'insights' | 'manage';
 type InsightsPanel = 'overview' | 'progress' | 'focus';
-type ManagePanel = 'learners' | 'app' | 'privacy' | 'support';
+type ManagePanel = 'learners' | 'learning' | 'app' | 'privacy' | 'support';
 
 const INSIGHTS_PANELS: InsightsPanel[] = ['overview', 'progress', 'focus'];
-const MANAGE_PANELS: ManagePanel[] = ['learners', 'app', 'privacy', 'support'];
+const MANAGE_PANELS: ManagePanel[] = ['learners', 'learning', 'app', 'privacy', 'support'];
+const RANGE_OPTIONS: AnalyticsRange[] = ['today', '7d'];
 
 function profileDisplayName(name: string, defaultName: string): string {
   return name === DEFAULT_LEARNER_NAME ? defaultName : name;
@@ -48,9 +58,16 @@ export function ParentScreen({
   onDeleteProfile,
   onUpdateProfile,
   onUpdateSettings,
+  onUpdatePreferences,
   onChangePin,
+  onResetProfile,
+  onResetAll,
   onPracticeSubject,
   onBack,
+  initialTab = 'insights',
+  initialInsightsPanel = 'overview',
+  initialManagePanel = 'learners',
+  initialOpenAddLearner = false,
 }: ParentScreenProps) {
   const { tUi } = useLearnI18n();
   const defaultName = tUi('profile.defaultName');
@@ -60,9 +77,11 @@ export function ParentScreen({
     highContrast: false,
     language: 'en',
   };
-  const [tab, setTab] = useState<ParentTab>('insights');
-  const [insightsPanel, setInsightsPanel] = useState<InsightsPanel>('overview');
-  const [managePanel, setManagePanel] = useState<ManagePanel>('learners');
+  const [tab, setTab] = useState<ParentTab>(initialTab);
+  const [insightsPanel, setInsightsPanel] = useState<InsightsPanel>(initialInsightsPanel);
+  const [managePanel, setManagePanel] = useState<ManagePanel>(initialManagePanel);
+  const [range, setRange] = useState<AnalyticsRange>('7d');
+  const [openAddLearner, setOpenAddLearner] = useState(initialOpenAddLearner);
 
   return (
     <>
@@ -139,7 +158,23 @@ export function ParentScreen({
               ))}
             </div>
 
-            {insightsPanel === 'overview' ? <OverviewPanel store={store} /> : null}
+            {insightsPanel === 'overview' ? (
+              <div className="learn-range-chips" role="group" aria-label={tUi('parent.range')}>
+                {RANGE_OPTIONS.map((option) => (
+                  <button
+                    key={option}
+                    type="button"
+                    className={`learn-profile-chip ${range === option ? 'is-active' : ''}`.trim()}
+                    aria-pressed={range === option}
+                    onClick={() => setRange(option)}
+                  >
+                    {tUi(`parent.range.${option}`)}
+                  </button>
+                ))}
+              </div>
+            ) : null}
+
+            {insightsPanel === 'overview' ? <OverviewPanel store={store} range={range} /> : null}
             {insightsPanel === 'progress' ? <ProgressPanel store={store} /> : null}
             {insightsPanel === 'focus' ? (
               <FocusPanel store={store} onPracticeSubject={onPracticeSubject} />
@@ -171,18 +206,29 @@ export function ParentScreen({
                 store={store}
                 activeProfileId={activeProfileId}
                 canDeleteProfile={canDeleteProfile}
+                startInAddMode={openAddLearner}
+                onAddModeConsumed={() => setOpenAddLearner(false)}
                 onAddProfile={onAddProfile}
                 onDeleteProfile={onDeleteProfile}
                 onUpdateProfile={onUpdateProfile}
               />
             ) : null}
+            {managePanel === 'learning' ? (
+              <LearningSetupPanel store={store} onUpdatePreferences={onUpdatePreferences} />
+            ) : null}
             {managePanel === 'app' ? (
               <AppAudioPanel settings={settings} onUpdateSettings={onUpdateSettings} />
             ) : null}
             {managePanel === 'privacy' ? (
-              <PrivacyPanel settings={settings} onChangePin={onChangePin} />
+              <PrivacyPanel
+                settings={settings}
+                onChangePin={onChangePin}
+                onExport={() => undefined}
+                onResetProfile={onResetProfile}
+                onResetAll={onResetAll}
+              />
             ) : null}
-            {managePanel === 'support' ? <SupportPanel store={store} /> : null}
+            {managePanel === 'support' ? <SupportPanel /> : null}
           </div>
         )}
       </section>

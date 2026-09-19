@@ -1,7 +1,10 @@
 import { useEffect } from 'react';
 import { useLearnAudio } from '../context/LearnAudioContext';
 import { useLearnI18n } from '../context/LearnI18nContext';
+import type { SubjectId } from '../app/types';
+import { subjects } from '../curriculum/subjects';
 import type { Badge } from '../rewards/badges';
+import { badgesBySubject } from '../rewards/badges';
 import { renderStars } from '../rewards/stars';
 
 interface ResultScreenProps {
@@ -13,6 +16,7 @@ interface ResultScreenProps {
   sessionPoints: number;
   sessionFocus?: string;
   badgeUnlocked: Badge | null;
+  earnedBadges: SubjectId[];
   onPlayAgain: () => void;
   onHome: () => void;
 }
@@ -26,12 +30,16 @@ export function ResultScreen({
   sessionPoints,
   sessionFocus,
   badgeUnlocked,
+  earnedBadges,
   onPlayAgain,
   onHome,
 }: ResultScreenProps) {
   const { speakCompletion } = useLearnAudio();
   const { tUi, tUiDigits, tBadge } = useLearnI18n();
   const perfectRound = correctCount === totalCount;
+  const nextBadgeSubject = subjects.find((subject) => !earnedBadges.includes(subject.id));
+  const nextBadge = nextBadgeSubject ? badgesBySubject[nextBadgeSubject.id] : null;
+  const starsToNext = Math.max(0, 3 - starsEarned);
 
   useEffect(() => {
     speakCompletion(subjectLabel, correctCount, totalCount);
@@ -62,9 +70,18 @@ export function ResultScreen({
           {perfectRound ? tUi('result.perfect') : tUi('result.greatEffort')}
         </p>
 
-        <p className="learn-session-points learn-pop">
-          {tUiDigits('result.pointsRound', { points: sessionPoints })}
-        </p>
+        {nextBadge && !badgeUnlocked ? (
+          <div className="learn-next-reward-card">
+            <div className="learn-next-reward-row">
+              <span>{tUi('result.nextBadge', { badge: tBadge(nextBadge.id) })}</span>
+              <span>{tUiDigits('result.starsToGo', { count: starsToNext })}</span>
+            </div>
+            <div className="learn-next-reward-bar" aria-hidden="true">
+              <span style={{ width: `${Math.max(20, ((starsEarned / 3) * 100))}%` }} />
+            </div>
+          </div>
+        ) : null}
+
         {sessionFocus ? <p className="learn-subtitle">{tUi('result.focus', { focus: sessionFocus })}</p> : null}
 
         {badgeUnlocked ? (

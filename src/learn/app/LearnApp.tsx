@@ -15,8 +15,16 @@ import { translateSubject, translateUi } from '../i18n/translate';
 import { registerLearnPwa } from '../pwa';
 import { buildAdaptiveSession, type AdaptiveSessionPlan } from '../curriculum/session';
 import { subjects } from '../curriculum/subjects';
+import { estimateLearningMinutes } from '../parent/analytics';
+import { localDateKey } from '../storage/dates';
 import type { Badge } from '../rewards/badges';
 import { POINTS_PER_CORRECT } from '../rewards/constants';
+import { getLearnPreferences, getSessionLength, isSubjectEnabled } from '../storage/preferences';
+import {
+  clearSessionDraft,
+  readSessionDraft,
+  writeSessionDraft,
+} from '../storage/session-draft';
 import {
   addChildProfile,
   deleteChildProfile,
@@ -28,14 +36,46 @@ import {
   readStore,
   recordActivityAttempt,
   recordSubjectSession,
+  resetAll,
+  resetProfile,
   setParentPin,
   switchChildProfile,
   updateChildProfile,
+  updateLearnPreferences,
   updateProfileLanguage,
   updateSettings,
 } from '../storage/store';
 import type { LearnStore } from '../storage/types';
 import type { Activity, LearnScreen, SubjectId } from './types';
+
+type ParentHubState = {
+  tab: 'insights' | 'manage';
+  insightsPanel: 'overview' | 'progress' | 'focus';
+  managePanel: 'learners' | 'learning' | 'app' | 'privacy' | 'support';
+  openAddLearner?: boolean;
+};
+
+function parseParentDeepLink(): ParentHubState | null {
+  const parent = new URLSearchParams(window.location.search).get('parent');
+  if (!parent) return null;
+
+  if (parent === 'manage' || parent === 'learners') {
+    return { tab: 'manage', insightsPanel: 'overview', managePanel: 'learners' };
+  }
+  if (parent === 'learning') {
+    return { tab: 'manage', insightsPanel: 'overview', managePanel: 'learning' };
+  }
+  if (parent === 'privacy') {
+    return { tab: 'manage', insightsPanel: 'overview', managePanel: 'privacy' };
+  }
+  if (parent === 'focus') {
+    return { tab: 'insights', insightsPanel: 'focus', managePanel: 'learners' };
+  }
+  if (parent === 'progress') {
+    return { tab: 'insights', insightsPanel: 'progress', managePanel: 'learners' };
+  }
+  return { tab: 'insights', insightsPanel: 'overview', managePanel: 'learners' };
+}
 
 export default function LearnApp() {
   const [screen, setScreen] = useState<LearnScreen | null>(null);
@@ -51,19 +91,45 @@ export default function LearnApp() {
   const [sessionPlan, setSessionPlan] = useState<AdaptiveSessionPlan | null>(null);
   const [store, setStore] = useState<LearnStore>(emptyStore);
   const [parentUnlocked, setParentUnlocked] = useState(false);
-  const [welcomePinGate, setWelcomePinGate] = useState(false);
-  const [openNewLearner, setOpenNewLearner] = useState(false);
+  const [parentHubState, setParentHubState] = useState<ParentHubState | null>(null);
+  const [parentReturnScreen, setParentReturnScreen] = useState<LearnScreen>('welcome');
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
   const activityStartedAt = useRef(Date.now());
 
   useEffect(() => {
+    registerLearnPwa();
     const loaded = readStore();
     setStore(loaded);
+    const deepLink = parseParentDeepLink();
+    if (deepLink) {
+      setParentHubState(deepLink);
+      const summaries = getProfileSummaries();
+      const soleNamedProfile =
+        summaries.length === 1 && summaries[0] && !summaries[0].needsName;
+      setParentReturnScreen(soleNamedProfile ? 'home' : 'welcome');
+      setScreen('parent');
+      return;
+    }
+
+    const draft = readSessionDraft();
+    const profileId = loaded.profile?.id;
+    if (draft && profileId && draft.profileId === profileId && draft.session.length > 0) {
+      setSubjectId(draft.subjectId);
+      setSessionPlan(draft.sessionPlan);
+      setSession(draft.session);
+      setSessionIndex(draft.sessionIndex);
+      setSessionCorrect(draft.sessionCorrect);
+      setSessionPoints(draft.sessionPoints);
+      setAnswerStreak(draft.answerStreak);
+      setActivityKey(draft.activityKey);
+      setScreen('activity');
+      return;
+    }
+
     const summaries = getProfileSummaries();
     const soleNamedProfile =
       summaries.length === 1 && summaries[0] && !summaries[0].needsName;
     setScreen(soleNamedProfile ? 'home' : 'welcome');
-    registerLearnPwa();
   }, []);
 
   useEffect(() => {
@@ -79,6 +145,35 @@ export default function LearnApp() {
     const timer = window.setTimeout(() => setBannerMessage(null), 4000);
     return () => window.clearTimeout(timer);
   }, [bannerMessage]);
+
+  useEffect(() => {
+    if (screen !== 'activity' || !subjectId || session.length === 0 || !store.profile?.id) {
+      return;
+    }
+
+    writeSessionDraft({
+      profileId: store.profile.id,
+      subjectId,
+      session,
+      sessionIndex,
+      sessionCorrect,
+      sessionPoints,
+      answerStreak,
+      sessionPlan,
+      activityKey,
+    });
+  }, [
+    activityKey,
+    answerStreak,
+    screen,
+    session,
+    sessionCorrect,
+    sessionIndex,
+    sessionPlan,
+    sessionPoints,
+    store.profile?.id,
+    subjectId,
+  ]);
 
   const language = store.settings.language ?? 'en';
 
@@ -107,6 +202,7 @@ export default function LearnApp() {
   }
 
   function resetSessionState() {
+    clearSessionDraft();
     setSubjectId(null);
     setSession([]);
     setSessionIndex(0);
@@ -118,13 +214,36 @@ export default function LearnApp() {
     setSessionPlan(null);
   }
 
+  function isDailyLimitReached(currentStore: LearnStore): boolean {
+    const limit = getLearnPreferences(currentStore).dailyLimitMinutes ?? 0;
+    if (limit <= 0) return false;
+    const todayResults = currentStore.activityResults ?? [];
+    const todayKey = localDateKey();
+    const todaysResults = todayResults.filter(
+      (result) => localDateKey(new Date(result.completedAt)) === todayKey,
+    );
+    return estimateLearningMinutes(todaysResults) >= limit;
+  }
+
   function beginSession(nextSubjectId: SubjectId) {
-    const plan = buildAdaptiveSession(nextSubjectId, readStore());
+    const current = readStore();
+    if (!isSubjectEnabled(current, nextSubjectId)) {
+      setBannerMessage(translateUi(language, 'home.subjectDisabled'));
+      return;
+    }
+    if (isDailyLimitReached(current)) {
+      setBannerMessage(translateUi(language, 'home.dailyLimit'));
+      return;
+    }
+
+    const size = getSessionLength(current);
+    const plan = buildAdaptiveSession(nextSubjectId, current, size);
     if (plan.activities.length === 0) {
       setBannerMessage(translateUi(language, 'home.noActivities'));
       return;
     }
 
+    setStore(current);
     setSubjectId(nextSubjectId);
     setSessionPlan(plan);
     setSession(plan.activities);
@@ -174,6 +293,7 @@ export default function LearnApp() {
     setStore(completion.store);
     setStarsEarned(completion.starsEarned);
     setBadgeUnlocked(completion.badgeUnlocked);
+    clearSessionDraft();
     setScreen('result');
   }
 
@@ -188,6 +308,19 @@ export default function LearnApp() {
     setScreen('welcome');
   }
 
+  function openParentHub(state?: ParentHubState, returnTo?: LearnScreen) {
+    setParentHubState(state ?? { tab: 'insights', insightsPanel: 'overview', managePanel: 'learners' });
+    setParentUnlocked(false);
+    setParentReturnScreen(returnTo ?? (screen === 'welcome' ? 'welcome' : 'home'));
+    setScreen('parent');
+  }
+
+  function leaveParentHub() {
+    setParentUnlocked(false);
+    setStore(readStore());
+    setScreen(parentReturnScreen);
+  }
+
   function renderScreen() {
     if (!screen) return null;
 
@@ -197,8 +330,6 @@ export default function LearnApp() {
           <>
             <WelcomeScreen
               profiles={getProfileSummaries()}
-              openNewLearner={openNewLearner}
-              onNewLearnerOpened={() => setOpenNewLearner(false)}
               onConfirmProfile={(profileId) => {
                 setStore(switchChildProfile(profileId));
               }}
@@ -212,55 +343,26 @@ export default function LearnApp() {
                 setScreen('home');
               }}
               onRequestNewLearner={() => {
-                if (store.settings.parentPin) {
-                  setWelcomePinGate(true);
-                  return;
-                }
-                setParentUnlocked(false);
-                setScreen('parent');
+                openParentHub(
+                  { tab: 'manage', insightsPanel: 'overview', managePanel: 'learners', openAddLearner: true },
+                  'welcome',
+                );
               }}
+              onOpenParentHub={() => openParentHub(undefined, 'welcome')}
               onComplete={() => setScreen('home')}
             />
-            {welcomePinGate ? (
-              <div
-                className="learn-modal-overlay"
-                role="dialog"
-                aria-modal="true"
-                aria-label={translateUi(language, 'pin.title')}
-                onClick={() => setWelcomePinGate(false)}
-              >
-                <div onClick={(event) => event.stopPropagation()}>
-                  <ParentPinGate
-                    variant="modal"
-                    storedPin={store.settings.parentPin}
-                    onUnlock={() => {
-                      setWelcomePinGate(false);
-                      setOpenNewLearner(true);
-                    }}
-                    onSetPin={(pin) => setStore((current) => setParentPin(pin, current))}
-                    onBack={() => setWelcomePinGate(false)}
-                  />
-                </div>
-              </div>
-            ) : null}
           </>
         );
       case 'home':
         return (
           <HomeScreen
+            store={store}
             subjects={subjects}
             learnerName={store.profile?.name ?? 'Learner'}
             learnerAvatar={store.profile?.avatar}
-            totalPoints={store.rewards.points}
-            totalStars={store.rewards.totalStars}
-            badges={store.rewards.badges}
-            dailyStreak={store.rewards.dailyStreak}
+            lastSubject={store.sessions?.lastSubject}
             onSelectSubject={beginSession}
-            onSwitchProfile={goToProfilePicker}
-            onOpenParent={() => {
-              setParentUnlocked(false);
-              setScreen('parent');
-            }}
+            onOpenParentHub={() => openParentHub()}
           />
         );
       case 'activity':
@@ -291,6 +393,7 @@ export default function LearnApp() {
             sessionPoints={sessionPoints}
             sessionFocus={sessionPlan?.reason}
             badgeUnlocked={badgeUnlocked}
+            earnedBadges={store.rewards?.badges ?? []}
             onPlayAgain={() => beginSession(subject.id)}
             onHome={() => {
               resetSessionState();
@@ -305,7 +408,7 @@ export default function LearnApp() {
               storedPin={store.settings.parentPin}
               onUnlock={() => setParentUnlocked(true)}
               onSetPin={(pin) => setStore((current) => setParentPin(pin, current))}
-              onBack={goHome}
+              onBack={leaveParentHub}
             />
           );
         }
@@ -315,8 +418,11 @@ export default function LearnApp() {
             profiles={getChildProfiles()}
             activeProfileId={getActiveProfileId()}
             canDeleteProfile={getChildProfiles().length > 1}
+            initialTab={parentHubState?.tab}
+            initialInsightsPanel={parentHubState?.insightsPanel}
+            initialManagePanel={parentHubState?.managePanel}
+            initialOpenAddLearner={parentHubState?.openAddLearner}
             onSwitchProfile={(profileId) => {
-              resetSessionState();
               const next = switchChildProfile(profileId);
               setStore(next);
               if (profileNeedsName(next.profile?.name)) {
@@ -325,7 +431,6 @@ export default function LearnApp() {
               }
             }}
             onAddProfile={(name, ageGroup, avatar) => {
-              resetSessionState();
               const next = addChildProfile(name, ageGroup, avatar);
               setStore(next);
               if (profileNeedsName(next.profile?.name)) {
@@ -334,7 +439,6 @@ export default function LearnApp() {
               }
             }}
             onDeleteProfile={(profileId) => {
-              resetSessionState();
               const next = deleteChildProfile(profileId);
               setStore(next);
               setParentUnlocked(false);
@@ -349,16 +453,24 @@ export default function LearnApp() {
               setStore(updateChildProfile(name, ageGroup, avatar))
             }
             onUpdateSettings={handleSettingsChange}
+            onUpdatePreferences={(preferences) => setStore(updateLearnPreferences(preferences))}
             onChangePin={(pin) => setStore(setParentPin(pin))}
+            onResetProfile={() => {
+              setStore(resetProfile());
+              setBannerMessage(translateUi(language, 'parent.privacy.resetProfileDone'));
+            }}
+            onResetAll={() => {
+              resetSessionState();
+              setStore(resetAll());
+              setParentUnlocked(false);
+              setScreen('welcome');
+            }}
             onPracticeSubject={(nextSubjectId) => {
               resetSessionState();
               setParentUnlocked(false);
               beginSession(nextSubjectId);
             }}
-            onBack={() => {
-              setParentUnlocked(false);
-              goHome();
-            }}
+            onBack={leaveParentHub}
           />
         );
       default: {

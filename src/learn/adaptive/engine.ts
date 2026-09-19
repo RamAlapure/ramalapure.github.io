@@ -16,6 +16,7 @@ import {
   freshnessScore,
   sortByFreshness,
 } from './freshness';
+import { applyDifficultyOverride, getDifficultyMode } from '../storage/preferences';
 import {
   difficultyDistance,
   getEffectiveDifficulty,
@@ -70,6 +71,7 @@ function scoreActivities(
       if (store.profile?.ageGroup === 'class1' && mastery.percent >= 85) {
         target = Math.min(4, target + 1);
       }
+      target = applyDifficultyOverride(target, getDifficultyMode(store));
       targets.set(activity.skill, target);
     }
   }
@@ -214,10 +216,15 @@ export function buildAdaptiveSubjectSession(
   );
   activities = injectMicroTracing(subjectId, activities, store, attemptStats, sessionSize);
 
+  const difficultyMode = getDifficultyMode(store);
   const targetDifficulty = Math.round(
     skills.reduce((sum, skill) => {
       const mastery = getSkillMastery(store, subjectId, skill);
-      return sum + targetDifficultyForMastery(mastery.percent, mastery.attempts);
+      const target = applyDifficultyOverride(
+        targetDifficultyForMastery(mastery.percent, mastery.attempts),
+        difficultyMode,
+      );
+      return sum + target;
     }, 0) / skills.length,
   );
 

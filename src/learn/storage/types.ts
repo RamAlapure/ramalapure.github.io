@@ -29,6 +29,16 @@ export interface SkillRecord {
   lastPracticedAt?: string;
 }
 
+export type DifficultyMode = 'adaptive' | 'easier' | 'harder';
+
+export interface LearnPreferences {
+  sessionLength?: number;
+  dailyGoal?: number;
+  enabledSubjects?: SubjectId[];
+  difficultyMode?: DifficultyMode;
+  dailyLimitMinutes?: number;
+}
+
 export interface LearnSettings {
   soundEnabled: boolean;
   slowSpeech: boolean;
@@ -57,6 +67,7 @@ export interface LearnStore {
   skills: Record<string, SkillRecord>;
   rewards: LearnRewards;
   sessions: LearnSessions;
+  preferences: LearnPreferences;
   settings: LearnSettings;
 }
 
